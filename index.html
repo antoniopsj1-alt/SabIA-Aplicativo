@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Antônio Pereira de Souza Junior">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Antônio Junior - Meus Aplicativos Web</title>
+    <style>
+      :root {
+        --bg: #07111f;
+        --panel: rgba(15, 23, 42, 0.88);
+        --panel-2: rgba(30, 41, 59, 0.9);
+        --card: rgba(17, 24, 39, 0.92);
+        --text: #e2e8f0;
+        --muted: #cbd5e1;
+        --primary: #38bdf8;
+        --secondary: #8b5cf6;
+        --success: #34d399;
+        --border: rgba(148, 163, 184, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.22), transparent 32%),
+          linear-gradient(135deg, var(--bg), #0f172a 55%, #111827);
+      }
+
+      .container {
+        width: min(1100px, 92vw);
+        margin: 52px auto;
+        padding: 34px 26px 40px;
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        background: rgba(15, 23, 42, 0.6);
+        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(6px);
+      }
+
+      .hero {
+        text-align: center;
+        padding: 18px 12px 8px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 8px 14px;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        background: rgba(56, 189, 248, 0.08);
+        border-radius: 999px;
+        color: #bae6fd;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.3rem, 4vw, 4.2rem);
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        margin: 18px auto 0;
+        max-width: 740px;
+        font-size: 1.08rem;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin: 34px 0 28px;
+      }
+
+      .stat {
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 20px 18px;
+        text-align: center;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.8rem;
+        color: #f8fafc;
+      }
+
+      .stat span {
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+        margin-top: 30px;
+      }
+
+      .card {
+        display: block;
+        text-decoration: none;
+        color: var(--text);
+        padding: 18px 18px 20px;
+        background: linear-gradient(180deg, var(--card), rgba(17, 24, 39, 0.85));
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto auto 0;
+        height: 3px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary), var(--success));
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 18px 38px rgba(59, 130, 246, 0.12);
+      }
+
+      .card strong {
+        display: block;
+        font-size: 1.08rem;
+        margin-bottom: 8px;
+      }
+
+      .card span {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .mini {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        font-size: 0.8rem;
+        color: #bae6fd;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          margin: 20px auto;
+          padding: 22px 16px 26px;
+        }
+
+        .stats {
+          grid-template-columns: repeat(2, minmax(120px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div class="badge">Portfólio de Aplicações Web</div>
+        <h1>AJr - Meus Aplicativos Web</h1>
+        
+        <p class="subtitle">
+          Olá! Sou Antônio Pereira de Souza Junior, Engenheiro Civil e Programador.</p> 
+          <p class="subtitle">"Neste portfólio, você encontrará uma seleção de projetos criativos, educativos e interativos que desenvolvi para simplificar problemas do dia a dia. Dedico à minha filha Anastasia.<br>Fique à vontade para explorar!"
+          </p>
+      </header>
+
+      <section class="stats" aria-label="Resumo dos projetos">
+        <div class="stat">
+          <strong>02</strong>
+          <span>🔮Entretenimento e Astrologia</span>
+        </div>
+        <div class="stat">
+          <strong>02</strong>
+          <span>📚Educação e Estudo</span>
+        </div>
+        <div class="stat">
+          <strong>01</strong>
+          <span>🤖Inteligência Artificial e Produtividade</span>
+        </div>
+        <div class="stat">
+          <strong>01</strong>
+          <span>💼Finanças e Organização</span>
+        </div>
+      </section>
+
+      <section class="grid" aria-label="Lista de aplicativos">
+        <a class="card" href="./01%20-%20Aplicativo%20Meu%20Anjo%20da%20Guarda-OK/index.html">
+          <strong>01 - Meu Anjo da Guarda</strong>
+          <span>Aplicativo de entretenimento/misticismo.</span>
+          <div class="mini">Abrir projeto →</div>
+        </a>
+
+
+        <a class="card" href="./05%20-%20Aplicativo%20de%20Resolu%C3%A7%C3%A3o%20e%20Estudos-OK/index.html">
+          <strong>02 - Resolução e Estudos</strong>
+          <span>Aplicativo de assistência estudantil e IA educacional.</span>
+          <div class="mini">Abrir projeto →</div>
+        </a>
+
+        
+        <a class="card" href="./04%20-%20Aplicativo%20Conversando%20com%20IA%20Puter-OK/index.html">
+          <strong>03 - Conversando com IA Puter</strong>
+          <span>Aplicativo de assistência virtual e chat de IA.</span>
+          <div class="mini">Abrir projeto →</div>
+        </a>
+
+
+        <a class="card" href="./06%20-%20Aplicativo%20Registro%20de%20Comprovante/index.html">
+          <strong>04 - Registro de Comprovante</strong>
+          <span>Aplicativo de produtividade que facilita a digitalização de comprovante e recibo.</span>
+          <div class="mini">Abrir projeto →</div>
+        </a>
+
+
+        <a class="card" href="./02%20-%20Aplicativo%20Portal%20dos%20Astros-OK/index.html">
+          <strong>05 - Portal dos Astros</strong>
+          <span>Aplicativo de Astrologia.</span>
+          <div class="mini">Abrir projeto →</div>
+        </a>
+
+        <a class="card" href="./03%20-%20Aplicativo%20S%C3%B3lidos%20Geom%C3%A9tricos-OK/index.html">
+          <strong>06 - Sólidos Geométricos</strong>
+          <span>Aplicativo educacional de matemática/geometria</span>
+          <div class="mini">Abrir projeto →</div>
+        </a>
+
+
+      </section>
+    </main>
+        <p style="text-align: center;">&copy; 2026 Antônio Pereira de Souza Junior.</p>
+        <p style="text-align: center;">Todos os direitos reservados.</p>
+  </body>
+</html>
