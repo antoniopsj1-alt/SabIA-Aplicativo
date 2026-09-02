@@ -1,256 +1,293 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="author" content="Antônio Pereira de Souza Junior">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Antônio Junior - Meus Aplicativos Web</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descubra seu Anjo da Guarda</title>
     <style>
-      :root {
-        --bg: #07111f;
-        --panel: rgba(15, 23, 42, 0.88);
-        --panel-2: rgba(30, 41, 59, 0.9);
-        --card: rgba(17, 24, 39, 0.92);
-        --text: #e2e8f0;
-        --muted: #cbd5e1;
-        --primary: #38bdf8;
-        --secondary: #8b5cf6;
-        --success: #34d399;
-        --border: rgba(148, 163, 184, 0.18);
-      }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --button-hover: #0ea5e9;
+        }
 
-      * {
-        box-sizing: border-box;
-      }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: Arial, Helvetica, sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 28%),
-          radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.22), transparent 32%),
-          linear-gradient(135deg, var(--bg), #0f172a 55%, #111827);
-      }
-
-      .container {
-        width: min(1100px, 92vw);
-        margin: 52px auto;
-        padding: 34px 26px 40px;
-        border: 1px solid var(--border);
-        border-radius: 26px;
-        background: rgba(15, 23, 42, 0.6);
-        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.45);
-        backdrop-filter: blur(6px);
-      }
-
-      .hero {
-        text-align: center;
-        padding: 18px 12px 8px;
-      }
-
-      .badge {
-        display: inline-block;
-        padding: 8px 14px;
-        border: 1px solid rgba(56, 189, 248, 0.35);
-        background: rgba(56, 189, 248, 0.08);
-        border-radius: 999px;
-        color: #bae6fd;
-        font-size: 0.8rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin-bottom: 18px;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: clamp(2.3rem, 4vw, 4.2rem);
-        line-height: 1.1;
-      }
-
-      .subtitle {
-        margin: 18px auto 0;
-        max-width: 740px;
-        font-size: 1.08rem;
-        line-height: 1.7;
-        color: var(--muted);
-      }
-
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 16px;
-        margin: 34px 0 28px;
-      }
-
-      .stat {
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 20px 18px;
-        text-align: center;
-      }
-
-      .stat strong {
-        display: block;
-        font-size: 1.8rem;
-        color: #f8fafc;
-      }
-
-      .stat span {
-        font-size: 0.92rem;
-        color: var(--muted);
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 18px;
-        margin-top: 30px;
-      }
-
-      .card {
-        display: block;
-        text-decoration: none;
-        color: var(--text);
-        padding: 18px 18px 20px;
-        background: linear-gradient(180deg, var(--card), rgba(17, 24, 39, 0.85));
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .card::before {
-        content: "";
-        position: absolute;
-        inset: 0 auto auto 0;
-        height: 3px;
-        width: 100%;
-        background: linear-gradient(90deg, var(--primary), var(--secondary), var(--success));
-      }
-
-      .card:hover {
-        transform: translateY(-6px);
-        border-color: rgba(139, 92, 246, 0.5);
-        box-shadow: 0 18px 38px rgba(59, 130, 246, 0.12);
-      }
-
-      .card strong {
-        display: block;
-        font-size: 1.08rem;
-        margin-bottom: 8px;
-      }
-
-      .card span {
-        color: var(--muted);
-        font-size: 0.95rem;
-        line-height: 1.5;
-      }
-
-      .mini {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 12px;
-        font-size: 0.8rem;
-        color: #bae6fd;
-      }
-
-      @media (max-width: 640px) {
         .container {
-          margin: 20px auto;
-          padding: 22px 16px 26px;
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
         }
 
-        .stats {
-          grid-template-columns: repeat(2, minmax(120px, 1fr));
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
         }
-      }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #475569;
+            background-color: #0f172a;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #0f172a;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--accent-color);
+            text-align: left;
+            display: none;
+        }
+
+        .result h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent-color);
+        }
+
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* ocupa toda a altura da viewport */
+    background-image: url('Imagens/Anjos1.png');
+    background-size: cover; /* ajusta a imagem para cobrir toda a tela */
+    background-position: center; /* centraliza a imagem */
+    background-repeat: no-repeat; /* evita repetir a imagem */
+  }
+        
     </style>
-  </head>
-  <body>
-    <main class="container">
-      <header class="hero">
-        <div class="badge">Portfólio de Aplicações Web</div>
-        <h1>AJr - Meus Aplicativos Web</h1>
+</head>
+<body>
+    
+   
+    <div class="container">
+        <h1>Meu Anjo da Guarda</h1>
+        <div class="input-group">
+            <label for="birthdate">Selecione sua Data de Nascimento:</label>
+            <input type="date" id="birthdate">
+        </div>
+        <button onclick="descobrirAnjo()">Descobrir Anjo da Guarda</button>
+
+        <div id="resultCard" class="result">
+            <h3 id="angelName">Nome do Anjo</h3>
+            <p><strong>Significado do Nome:</strong> <span id="Significado"></span></p>
+             <p><strong>Hierarquia:</strong> <span id="hierarquia"></span></p>
+            <p><strong>Nascimento:</strong> <span id="angelPeriod"></span></p> 
+            <p><strong>Atributo/Virtude:</strong> <span id="angelVirtue"></span></p>
+            
+            <p><strong>Nascidos:</strong> <span id="Nascidos"></span></p>
+            <p><strong>Cuidados:</strong> <span id="Cuidados"></span></p>
+            <p><strong>Dia:</strong> <span id="Dia"></span></p>
+            <p><strong>Horário:</strong> <span id="Horario"></span></p>
+            <p><strong>Cor:</strong> <span id="Cor"></span></p>
+            <p><strong>Salmo:</strong> <span id="Salmo"></span></p>
+            
+            
+
+
+        </div>
         
-        <p class="subtitle">
-          Olá! Sou Antônio Pereira de Souza Junior, Engenheiro Civil e Programador.</p> 
-          <p class="subtitle">"Neste portfólio, você encontrará uma seleção de projetos criativos, educativos e interativos que desenvolvi para simplificar problemas do dia a dia. Dedico à minha filha Anastasia.<br>Fique à vontade para explorar!"
-          </p>
-      </header>
 
-      <section class="stats" aria-label="Resumo dos projetos">
-        <div class="stat">
-          <strong>02</strong>
-          <span>🔮Entretenimento e Astrologia</span>
-        </div>
-        <div class="stat">
-          <strong>02</strong>
-          <span>📚Educação e Estudo</span>
-        </div>
-        <div class="stat">
-          <strong>01</strong>
-          <span>🤖Inteligência Artificial e Produtividade</span>
-        </div>
-        <div class="stat">
-          <strong>01</strong>
-          <span>💼Finanças e Organização</span>
-        </div>
-      </section>
-
-      <section class="grid" aria-label="Lista de aplicativos">
-        <a class="card" href="./01%20-%20Aplicativo%20Meu%20Anjo%20da%20Guarda-OK/index.html">
-          <strong>01 - Meu Anjo da Guarda</strong>
-          <span>Aplicativo de entretenimento/misticismo.</span>
-          <div class="mini">Abrir projeto →</div>
-        </a>
+        <p>&copy; 2026 Antônio Pereira de Souza Junior.</p>
+<p>Todos os direitos reservados.</p>
+<button onclick="voltar()">Voltar</button>
+    </div>
 
 
-        <a class="card" href="./05%20-%20Aplicativo%20de%20Resolu%C3%A7%C3%A3o%20e%20Estudos-OK/index.html">
-          <strong>02 - Resolução e Estudos</strong>
-          <span>Aplicativo de assistência estudantil e IA educacional.</span>
-          <div class="mini">Abrir projeto →</div>
-        </a>
-
-        
-        <a class="card" href="./04%20-%20Aplicativo%20Conversando%20com%20IA%20Puter-OK/index.html">
-          <strong>03 - Conversando com IA Puter</strong>
-          <span>Aplicativo de assistência virtual e chat de IA.</span>
-          <div class="mini">Abrir projeto →</div>
-        </a>
-
-
-        <a class="card" href="./06%20-%20Aplicativo%20Registro%20de%20Comprovante/index.html">
-          <strong>04 - Registro de Comprovante</strong>
-          <span>Aplicativo de produtividade que facilita a digitalização de comprovante e recibo.</span>
-          <div class="mini">Abrir projeto →</div>
-        </a>
-
-
-        <a class="card" href="./02%20-%20Aplicativo%20Portal%20dos%20Astros-OK/index.html">
-          <strong>05 - Portal dos Astros</strong>
-          <span>Aplicativo de Astrologia.</span>
-          <div class="mini">Abrir projeto →</div>
-        </a>
-
-        <a class="card" href="./03%20-%20Aplicativo%20S%C3%B3lidos%20Geom%C3%A9tricos-OK/index.html">
-          <strong>06 - Sólidos Geométricos</strong>
-          <span>Aplicativo educacional de matemática/geometria</span>
-          <div class="mini">Abrir projeto →</div>
-        </a>
+    <script>
+        // Amostra dos anjos da cabala com base nas datas (Dia e Mês) 72 anjos
+        const anjos = [
+            { datas: ["03/Mar", "15/Mai", "27/Jul", "08/Out", "20/Dez"], nome: "Nemamiah", virtude: "Liderança nata, coragem nas batalhas diárias e libertação de vícios mentais", Salmo:"113, versículo 18 ", Cor:"Verde", Significado:"Deus louvável.", Nascidos:"Um estrategista nato, lutador pelas grandes causas, muito focado no trabalho duro e capaz de suportar grandes fadigas.", Cuidados:"Traições em combate, a liderança tirânica de equipes e a revolta contra leis justas.", Dia:"Sábado ", Horario:"18:40 às 19:00", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)" },
+            { datas: ["04/Mar", "16/Mai", "28/Jul", "09/Out", "21/Dez"], nome: "Yeialel", virtude: "Combate à tristeza, clareza mental extrema e precisão em cirurgias ou tratamentos.", Salmo:"6, versículo 3", Cor:"Amarelo", Significado:"Deus que acolhe os pedidos", Nascidos:"Alguém preciso, excelente cirurgião, engenheiro ou cuteleiro, que age com a cabeça fria diante das piores crises.", Cuidados:"A crueldade mental, o comércio ilícito de armas e a frieza sentimental extrema.", Dia:"Segunda-feira", Horario:"19:00 às 19:20", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)"},
+            { datas: ["05/Mar", "17/Mai", "29/Jul", "10/Out", "22/Dez"], nome: "Harahel", virtude: "Fertilidade intelectual, amor pelos livros e sucesso financeiro no comércio.", Salmo:"112, versículo 3", Cor:"Verde", Significado:"Deus que conhece todas as coisas", Nascidos:"Um banqueiro exemplar, arquivista, editor ou contador público que sabe gerenciar a riqueza sem perder a ética.", Cuidados:"A dilapidação de bens públicos, a fraude contábil e a falência culposa.", Dia:"Sábado", Horario:"19:20 às 19:40", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)"},
+            { datas: ["06/Mar", "18/Mai", "30/Jul", "11/Out", "23/Dez"], nome: "Mitzrael", virtude: "Cura de enfermidades psíquicas, obediência fiel e retidão com os outros.", Salmo:"144, versículo 17", Cor:"Branca", Significado:"Deus que socorre os oprimidos.", Nascidos:"Um curador da mente, psicólogo eficaz, com grandes virtudes de fidelidade e respeito às autoridades.", Cuidados:"A insubordinação crônica, as revoltas violentas e o vício em drogas.", Dia:"Terça-feira ", Horario:"19:40 às 20:00", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)"},
+            { datas: ["07/Mar", "19/Mai", "31/Jul", "12/Out", "24/Dez"], nome: "Umabel", virtude: "Amizades profundas, paixão pela física e astronomia, afabilidade com todos.", Salmo:"112, versículo 2", Cor:"Verde", Significado:"Deus acima de todas as coisas.", Nascidos:"Um cientista ou astrólogo brilhante, que valoriza as conexões humanas profundas e viaja para expandir a mente.", Cuidados:"O isolamento afetivo total, a libertinagem e a traição de amigos queridos.", Dia:"Sábado ", Horario:"20:00 às 20:20", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)"},
+            { datas: ["08/Mar", "20/Mai", "01/Ago", "13/Out", "25/Dez"], nome: "Iah-Hel", virtude: "Sabedoria oculta, busca pela solidão meditativa e felicidade doméstica.", Salmo:"118, versículo 159", Cor:"Branca", Significado:"Ser supremo.", Nascidos:"Um filósofo recolhido, que vive em paz dentro do lar, focado em meditações transcendentais e no autoconhecimento.", Cuidados:"O escândalo familiar, o divórcio litigioso e o luxo desmedido.", Dia:"Sábado ", Horario:"20:20 às 20:40", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)"},
+            { datas: ["09/Mar", "21/Mai", "02/Ago", "14/Out", "26/Dez"], nome: "Anauel", virtude: "Sucesso no comércio internacional, proteção na saúde e mente engenhosa.", Salmo:"2, versículo 11", Cor:"Azul", Significado:"Deus infinitamente bom.", Nascidos:"Um grande financista ou empresário do ramo da saúde que usa o lucro para financiar hospitais e curar os pobres.", Cuidados:"A usura extrema, a ganância com a dor alheia e a sonegação fiscal.", Dia:"Terça-feira ", Horario:"20:40 às 21:00", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)"},
+            { datas: ["10/Mar", "22/Mai", "03/Ago", "15/Out", "27/Dez"], nome: "Mehiel", virtude: "Inspiração para escritores, professores e oradores públicos proeminentes.", Salmo:"32, versículo 18", Cor:"Verde", Significado:"Deus que vivifica todas as coisas.", Nascidos:"Um intelectual brilhante, palestrante motivacional ou romancista aclamado que espalha conhecimento útil.", Cuidados:"O plágio literário, a futilidade acadêmica e as mentiras no discurso público.", Dia:"Segunda-feira", Horario:"21:00 às 21:20", Hierarquia:"8º Coro: Arcanjos (Príncipe Michael / Miguel)"},
+ 
+ 
+            { datas: ["11/Mar", "23/Mai", "04/Ago", "16/Out", "28/Dez"], nome: "Damabiah", virtude: "Proteção total contra feitiços malignos, sucesso nas águas e rios. Salmo: 89, Cor: Azul"},
+            { datas: ["12/Mar", "24/Mai", "05/Ago", "17/Out", "29/Dez"], nome: "Manakel", virtude: "Estabilidade de temperamento, sonhos lúcidos agradáveis e cura de dores na alma. Salmo: 37, Cor: Branca"},
+            { datas: ["13/Mar", "25/Mai", "06/Ago", "18/Out", "30/Dez"], nome: "Eiael", virtude: "Domínio das ciências ocultas, longevidade e iluminação na filosofia. Salmo: 36, Cor: Branca"},
+            { datas: ["14/Mar", "26/Mai", "07/Ago", "19/Out", "31/Dez"], nome: "Habuhiah", virtude: "Grande poder de cura física, fertilidade agrícola e amor pelo campo. Salmo: 105, Cor: Verde"},
+            { datas: ["15/Mar", "27/Mai", "08/Ago", "20/Out", "01/Jan"], nome: "Rochel", virtude: "Encontrar objetos perdidos ou roubados e fama no ramo do direito. Salmo: 15, Cor: Amarela"},
+            { datas: ["16/Mar", "28/Mai", "09/Ago", "21/Out", "02/Jan"], nome: "Jabamiah", virtude: "Sucesso na transmutação espiritual, regeneração moral e cura de feridas. Salmo: 01/91, Cor: Lilás"},
+            { datas: ["17/Mar", "29/Mai", "10/Ago", "22/Out", "03/Jan"], nome: "Haiaiel", virtude: "Livramento de opressores cotidianos, bravura extrema e vitória estratégica. Salmo: 108, Cor: Branca"},
+            { datas: ["18/Mar", "30/Mai", "11/Ago", "23/Out", "04/Jan"], nome: "Mumiah", virtude: "Triunfo na medicina e física, encerramento bem-sucedido de ciclos difíceis. Salmo: 114, Cor: Branca"},
 
 
-      </section>
-    </main>
-        <p style="text-align: center;">&copy; 2026 Antônio Pereira de Souza Junior.</p>
-        <p style="text-align: center;">Todos os direitos reservados.</p>
-  </body>
+            { datas: ["19/Mar", "31/Mai", "12/Ago", "24/Out", "05/Jan"], nome: "Anjos da humanidade", virtude: "Eles são associados a uma missão voltada para o coletivo. Salmo: 91/150, Cor: Não tem"},
+            
+            
+            { datas: ["20/Mar", "01/Jun", "13/Ago", "25/Out", "06/Jan"], nome: "Vehuiah", virtude: "Vontade poderosa, capacidade de iniciar grandes projetos e empreendedorismo. Salmo: 03, Cor: Amarela"},
+            { datas: ["21/Mar", "02/Jun", "14/Ago", "26/Out", "07/Jan"], nome: "Jeliel", virtude: "Amor, sabedoria, harmonia conjugal e pacificação de conflitos. Salmo: 21, Cor: Branca"},
+            { datas: ["22/Mar", "03/Jun", "15/Ago", "27/Out", "08/Jan"], nome: "Sitael", virtude: "Proteção contra adversidades, cumprimento da palavra e nobreza de caráter. Salmo: 90, Cor: Amarela"},
+            { datas: ["23/Mar", "04/Jun", "16/Ago", "28/Out", "09/Jan"], nome: "Elemiah", virtude: "Poder divino, descoberta de traições e sucesso em viagens ou negócios marítimos. Salmo: 06, Cor: Amarela"},
+            { datas: ["24/Mar", "05/Jun", "17/Ago", "29/Out", "10/Jan"], nome: "Mahasiah", virtude: "Viver em paz com todos, facilidade no aprendizado de ciências e artes. Salmo: 33, Cor: Branca"},
+            { datas: ["25/Mar", "06/Jun", "18/Ago", "30/Out", "11/Jan"], nome: "Lelahel", virtude: "Iluminação espiritual, cura de doenças, fama e sucesso nas artes. Salmo: 09, Cor: Lilás"},
+            { datas: ["26/Mar", "07/Jun", "19/Ago", "31/Out", "12/Jan"], nome: "Achaiah", virtude: "Paciência extrema, descoberta dos segredos da natureza e inovação. Salmo: 102, Cor: Amarela"},
+            { datas: ["27/Mar", "08/Jun", "20/Ago", "01/Nov", "13/Jan"], nome: "Cahethel", virtude: "Bênçãos agrícolas, abundância, proteção contra forças negativas da natureza. Salmo: 94/95, Cor: Branca"},
+
+
+            { datas: ["28/Mar", "09/Jun", "21/Ago", "02/Nov", "14/Jan"], nome: "Haziel", virtude: "Misericórdia divina, perdão, amizade sincera e promessas cumpridas. Salmo: 24, Cor: Branca"},
+            { datas: ["29/Mar", "10/Jun", "22/Ago", "03/Nov", "15/Jan"], nome: "Aladiah", virtude: "Graça divina, regeneração moral, saúde física e superação de erros passados. Salmo: 32, Cor: Verde"},
+            { datas: ["30/Mar", "11/Jun", "23/Ago", "04/Nov", "16/Jan"], nome: "Lauviah", virtude: "Vitória contra o orgulho, fama obtida pelo talento e equilíbrio emocional. Salmo: 17, Cor: Branca"},
+            { datas: ["31/Mar", "12/Jun", "24/Ago", "05/Nov", "17/Jan"], nome: "Hahaiah", virtude: "Refúgio espiritual, sonhos reveladores, mistérios ocultos e proteção da intimidade. Salmo: 09, Cor: Lilás"},
+            { datas: ["01/Abr", "13/Jun", "25/Ago", "06/Nov", "18/Jan"], nome: "Yezalel", virtude: "Fidelidade conjugal, reconciliação, amizades leais e facilidade de expressão. Salmo: 97, Cor: Rosa"},            
+            { datas: ["02/Abr", "14/Jun", "26/Ago", "07/Nov", "19/Jan"], nome: "Mebahel", virtude: "Justiça, verdade, liberdade e libertação dos oprimidos. Salmo: 09, Cor: Lilás"},
+            { datas: ["03/Abr", "15/Jun", "27/Ago", "08/Nov", "20/Jan"], nome: "Hariel", virtude: "Purificação, sentimentos religiosos, descobertas úteis e paz de espírito. Salmo: 93, Cor: Branca"},
+            { datas: ["04/Abr", "16/Jun", "28/Ago", "09/Nov", "21/Jan"], nome: "Hekamiah", virtude: "Lealdade aos princípios, coragem protetora e sucesso nas carreiras militares ou públicas. Salmo: 87, Cor: Azul"},
+
+
+            { datas: ["05/Abr", "17/Jun", "29/Ago", "10/Nov", "22/Jan"], nome: "Lauviah (II)", virtude: "Revelações através da música e literatura, combate à insônia e depressão. Salmo: 08, Cor: Verde"},
+            { datas: ["06/Abr", "18/Jun", "30/Ago", "11/Nov", "23/Jan"], nome: "Caliel", virtude: "Socorro rápido nas adversidades, triunfo da inocência e integridade na justiça. Salmo: 07, Cor: Azul"},
+            { datas: ["07/Abr", "19/Jun", "31/Ago", "12/Nov", "24/Jan"], nome: "Leuviah", virtude: "Memória excelente, modéstia, superação das provações com alegria interior. Salmo: 39, Cor: Amarela"},
+            { datas: ["08/Abr", "20/Jun", "01/Set", "13/Nov", "25/Jan"], nome: "Pahaliah", virtude: "Conversão espiritual, domínio das paixões cotidianas e vocação religiosa. Salmo: 119, Cor: Branca"},
+            { datas: ["09/Abr", "21/Jun", "02/Set", "14/Nov", "26/Jan"], nome: "Nelchael", virtude: "Sede de conhecimento, facilidade com matemática, astronomia e destruição de calúnias. Salmo: 30, Cor: Lilás"},
+            { datas: ["10/Abr", "22/Jun", "03/Set", "15/Nov", "27/Jan"], nome: "Yeiayel", virtude: "Fortuna, diplomacia, sucesso comercial e proteção em viagens internacionais. Salmo: 120, Cor: Branca"},
+            { datas: ["11/Abr", "23/Jun", "04/Set", "16/Nov", "28/Jan"], nome: "Melahel", virtude: "Cura pelas plantas medicinais, proteção contra armas e segurança pública. Salmo: 120, Cor: Branca"},
+            { datas: ["12/Abr", "24/Jun", "05/Set", "17/Nov", "29/Jan"], nome: "Hahuiah", virtude: "Obtenção da graça e da misericórdia divina, proteção de exilados e prisioneiros. Salmo: 32, Cor: Verde"},
+ 
+ 
+            { datas: ["13/Abr", "25/Jun", "06/Set", "18/Nov", "30/Jan"], nome: "Nith-Haiah", virtude: "Sabedoria espiritual, magia branca, revelação de mistérios e tranquilidade. Salmo: 09, Cor: Lilás"},
+            { datas: ["14/Abr", "26/Jun", "07/Set", "19/Nov", "31/Jan"], nome: "Haaiah", virtude: "Julgamentos favoráveis, diplomacia política e discrição absoluta. Salmo: 118, Cor: Branca"},  
+            { datas: ["15/Abr", "27/Jun", "08/Set", "20/Nov", "01/Fev"], nome: "Yerathel", virtude: "Confundir os caluniadores, propagação das luzes da civilização e paz social. Salmo: 139, Cor: Amarela"},
+            { datas: ["16/Abr", "28/Jun", "09/Set", "21/Nov", "02/Fev"], nome: "Seheiah", virtude: "Longevidade, proteção contra incêndios, acidentes, ruínas e doenças súbitas. Salmo: 70, Cor: Verde"},
+            { datas: ["17/Abr", "29/Jun", "10/Set", "22/Nov", "03/Fev"], nome: "Reyel", virtude: "Zelo pela verdade, inspiração divina em discursos e libertação de inimigos ocultos. Salmo: 53, Cor: Azul"},
+            { datas: ["18/Abr", "30/Jun", "11/Set", "23/Nov", "04/Fev"], nome: "Omael", virtude: "Paciência diante dos problemas, fertilidade, expansão nos negócios e amor pelos animais. Salmo: 70, Cor: Verde"},
+            { datas: ["19/Abr", "01/Jul", "12/Set", "24/Nov", "05/Fev"], nome: "Lecabel", virtude: "Iluminação intelectual, ideias brilhantes para o comércio e agronomia. Salmo: 70, Cor: Verde"},
+            { datas: ["20/Abr", "02/Jul", "13/Set", "25/Nov", "06/Fev"], nome: "Vasariah", virtude: "Justiça clemente, boa memória, facilidade com a fala e proteção de magistrados. Salmo: 32, Cor: Verde"},
+
+
+            { datas: ["21/Abr", "03/Jul", "14/Set", "26/Nov", "07/Fev"], nome: "Yehuiah", virtude: "Submissão ao dever, descoberta de traidores e proteção aos líderes justos. Salmo: 33, Cor: Branca"},
+            { datas: ["22/Abr", "04/Jul", "15/Set", "27/Nov", "08/Fev"], nome: "Lehahiah", virtude: "Obediência sincera e lealdade, pacificação da raiva e superação de crises. Salmo: 130, Cor: Verde"},
+            { datas: ["23/Abr", "05/Jul", "16/Set", "28/Nov", "09/Fev"], nome: "Chavakiah", virtude: "Reconciliação familiar, heranças harmoniosas e perdão de ofensas graves. Salmo: 114, Cor: Branca"},
+            { datas: ["24/Abr", "06/Jul", "17/Set", "29/Nov", "10/Fev"], nome: "Menadel", virtude: "Manutenção do emprego, notícias de pessoas distantes e libertação de vícios. Salmo: 25, Cor: Azul"},
+            { datas: ["25/Abr", "07/Jul", "18/Set", "30/Nov", "11/Fev"], nome: "Aniel", virtude: "Superação de bloqueios intelectuais, vitória nas ciências e artes. Salmo: 79, Cor: Amarela"},
+            { datas: ["26/Abr", "08/Jul", "19/Set", "01/Dez", "12/Fev"], nome: "Haamiah", virtude: "Aquisição de tesouros celestes e materiais, combate à fraude e proteção religiosa. Salmo: 90, Cor: Amarela"},
+            { datas: ["27/Abr", "09/Jul", "20/Set", "02/Dez", "13/Fev"], nome: "Rehael", virtude: "Cura profunda de doenças mentais, amor filial e respeito à hierarquia familiar. Salmo: 29, Cor: Rosa"},
+            { datas: ["28/Abr", "10/Jul", "21/Set", "03/Dez", "14/Fev"], nome: "Ieiazel", virtude: "Consolo nas tristezas, libertação de opressores e sucesso no mundo editorial. Salmo: 87, Cor: Azul"},
+ 
+ 
+            { datas: ["29/Abr", "11/Jul", "22/Set", "04/Dez", "15/Fev"], nome: "Hahahel", virtude: "Grandeza de alma, sacerdócio espiritual e energia focada no bem comum. Salmo: 119, Cor: Branca"},
+            { datas: ["30/Abr", "12/Jul", "23/Set", "05/Dez", "16/Fev"], nome: "Mikael", virtude: "Segurança em viagens, ordem nas decisões políticas e diplomacia internacional. Salmo: 120, Cor: Branca"},
+            { datas: ["01/Mai", "13/Jul", "24/Set", "06/Dez", "17/Fev"], nome: "Veualiah", virtude: "Destruição de amarras internas, prosperidade material e sucesso estratégico. Salmo: 87, Cor: Azul"},
+            { datas: ["02/Mai", "14/Jul", "25/Set", "07/Dez", "18/Fev"], nome: "Yelahiah", virtude: "Proteção em processos judiciais, coragem e sucesso em desafios complexos. Salmo: 118, Cor: Branca"},
+            { datas: ["03/Mai", "15/Jul", "26/Set", "08/Dez", "19/Fev"], nome: "Sealiah", virtude: "Exaltação dos humildes, renascimento da esperança e boa saúde geral. Salmo: 93, Cor: Branca"},
+            { datas: ["04/Mai", "16/Jul", "27/Set", "09/Dez", "20/Fev"], nome: "Ariel", virtude: "Descoberta de segredos divinos, intuição poderosa e sonhos proféticos benéficos.", Salmo:"144, versículo 9", Cor:"Branca", Significado:"Deus revelador.", Nascidos:"Um pensador discreto, que recebe grandes sacadas intuitivas e resolve enigmas práticos com facilidade.", Cuidados:"A obsessão espiritual por ideias fixas e o delírio de grandeza mental.", Dia:"Terça-feira.", Horario:"15:00 às 15:20", Hierarquia:"Virtudes (6º Coro)" },
+            { datas: ["05/Mai", "17/Jul", "28/Set", "10/Dez", "21/Fev"], nome: "Asaliah", virtude: "Elevação da mente a Deus, descoberta da verdade e caráter íntegro. Salmo: 103/104, Cor: Branca"},
+            { datas: ["06/Mai", "18/Jul", "29/Set", "11/Dez", "22/Fev"], nome: "Mihael", virtude: "Paz conjugal, intuição nas amizades e amor profundo por quem está perto. Salmo: 97, Cor: Rosa"},
+
+
+            { datas: ["07/Mai", "19/Jul", "30/Set", "12/Dez", "23/Fev"], nome: "Vehuel", virtude: "Grandiosidade de espírito, tolerância com as falhas alheias e sabedoria. Salmo: 144, Cor: Branca"},
+            { datas: ["08/Mai", "20/Jul", "01/Out", "13/Dez", "24/Fev"], nome: "Daniel", virtude: "Misericórdia, consolo, inspiração para a justiça e eloquência na oratória. Salmo: 102, Cor: Amarela"},
+            { datas: ["09/Mai", "21/Jul", "02/Out", "14/Dez", "25/Fev"], nome: "Hahasiah", virtude: "Descoberta dos segredos da medicina tradicional e das ciências ocultas puras. Salmo: 103, Cor: Rosa"},
+            { datas: ["10/Mai", "22/Jul", "03/Out", "15/Dez", "26/Fev"], nome: "Imamiah", virtude: "Destruição do poder dos inimigos, proteção nas viagens e arrependimento real. Salmo: 07, Cor: Rosa"},
+            { datas: ["11/Mai", "23/Jul", "04/Out", "16/Dez", "27/Fev"], nome: "Nanael", virtude: "Inspiração nas altas ciências, inclinação para a vida pacífica e estudos profundos. Salmo: 118, Cor: Branca"},
+            { datas: ["12/Mai", "24/Jul", "05/Out", "17/Dez", "28/Fev", "29/Fev"], nome: "Nithael", virtude: "Longevidade, estabilidade nos negócios, beleza pessoal e escrita inspirada. Salmo: 102, Cor: Amarela"},
+            { datas: ["13/Mai", "25/Jul", "06/Out", "18/Dez", "01/Mar"], nome: "Mebahiah", virtude: "Consolo aos aflitos, forte senso moral e ações humanitárias práticas. Salmo: 101, Cor: Rosa"},
+        {datas: ["14/Mai", "26/Jul", "07/Out", "19/Dez", "02/Mar"], nome: "Poiayel", virtude: "Fortuna, renome, modéstia intelectual e capacidade de vencer demandas difíceis. Salmo: 144, Cor: Branca"}
+        // Você pode adicionar mais objetos com outras datas e nomes de anjos aqui
+        ];
+
+         function voltar() {
+            document.getElementById("resultCard").style.display = "none";
+         }
+
+    function descobrirAnjo() {
+        const inputVal = document.getElementById("birthdate").value;
+
+        if (!inputVal) {
+            alert("Por favor, selecione uma data válida!");
+            return;
+        }
+
+        const [ano, mesNumero, diaNumero] = inputVal.split("-");
+        const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+        const dataFormatada = `${diaNumero}/${meses[Number(mesNumero) - 1]}`;
+        const encontrado = anjos.find(a => a.datas.includes(dataFormatada));
+        const card = document.getElementById("resultCard");
+
+        if (encontrado) {
+            document.getElementById("angelName").innerText = encontrado.nome;
+            document.getElementById("angelPeriod").innerText = encontrado.datas.join(", ");
+            document.getElementById("Significado").innerText = encontrado.Significado;
+            document.getElementById("angelVirtue").innerText = encontrado.virtude;
+            document.getElementById("Salmo").innerText = encontrado.Salmo;
+            document.getElementById("Cor").innerText = encontrado.Cor;
+            document.getElementById("Nascidos").innerText = encontrado.Nascidos;
+            document.getElementById("Cuidados").innerText = encontrado.Cuidados;
+            document.getElementById("Dia").innerText = encontrado.Dia;
+            document.getElementById("Horario").innerText = encontrado.Horario;
+            document.getElementById("hierarquia").innerText = encontrado.Hierarquia;
+
+
+
+        } else {
+            document.getElementById("angelName").innerText = "Nenhum anjo encontrado para esta data.";
+            document.getElementById("angelPeriod").innerText = "";
+            document.getElementById("angelVirtue").innerText = "";
+            document.getElementById("Significado").innerText = "";
+            document.getElementById("Salmo").innerText = "";
+            document.getElementById("Cor").innerText = "";
+            document.getElementById("Nascidos").innerText = "";
+            document.getElementById("Cuidados").innerText = "";
+            document.getElementById("Dia").innerText = "";
+            document.getElementById("Horario").innerText = "";
+            document.getElementById("hierarquia").innerText = "";
+        }
+
+        card.style.display = "block";
+    }
+</script>
+
+</body>
 </html>
