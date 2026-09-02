@@ -1,316 +1,1874 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="author" content="Antônio Pereira de Souza Junior">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://js.puter.com/v2/"></script>
-    <title>Portal dos Astros</title>
+  <head>
+    <meta charset="UTF-8" />
+      <meta name="author" content="Antônio Pereira de Souza Junior">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>SabIA - Anastasia</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      :root {
+        --bg-1: #eaf4ff;
+        --bg-2: #d6ecff;
+        --primary: #0052cc;
+        --primary-strong: #003399;
+        --primary-soft: #e8f2ff;
+        --secondary: #2e7fe8;
+        --tertiary: #5ca5ff;
+        --dark: #0f1e3d;
+        --text: #1a3a5c;
+        --muted: #6b85a8;
+        --card: rgba(255, 255, 255, 0.92);
+        --line: rgba(0, 82, 204, 0.08);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --shadow-sm: 0 2px 8px rgba(0, 52, 153, 0.08);
+        --shadow-md: 0 8px 20px rgba(0, 52, 153, 0.12);
+        --shadow-lg: 0 16px 40px rgba(0, 52, 153, 0.16);
+        --shadow-xl: 0 24px 60px rgba(0, 52, 153, 0.2);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        position: relative;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background:
+          radial-gradient(circle at 15% 18%, rgba(149, 96, 255, 0.45), transparent 18%),
+          radial-gradient(circle at 85% 12%, rgba(61, 98, 255, 0.35), transparent 22%),
+          radial-gradient(circle at 50% 30%, rgba(196, 157, 255, 0.16), transparent 28%),
+          linear-gradient(180deg, #060d20 0%, #111a39 18%, #171d3a 42%, #1e1a3b 68%, #0b1125 100%);
+        color: var(--dark);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          radial-gradient(1.5px 1.5px at 10% 15%, rgba(255,255,255,0.9), transparent 80%),
+          radial-gradient(1.2px 1.2px at 20% 30%, rgba(201, 180, 255, 0.9), transparent 80%),
+          radial-gradient(1.6px 1.6px at 35% 18%, rgba(255,255,255,0.7), transparent 80%),
+          radial-gradient(1.8px 1.8px at 50% 10%, rgba(179, 200, 255, 0.9), transparent 80%),
+          radial-gradient(1.5px 1.5px at 65% 25%, rgba(255,255,255,0.8), transparent 80%),
+          radial-gradient(1.4px 1.4px at 80% 15%, rgba(207, 176, 255, 0.9), transparent 80%),
+          radial-gradient(1.7px 1.7px at 92% 26%, rgba(255,255,255,0.8), transparent 80%),
+          radial-gradient(1.2px 1.2px at 70% 35%, rgba(255,255,255,0.7), transparent 80%),
+          radial-gradient(1.3px 1.3px at 25% 42%, rgba(255,255,255,0.8), transparent 80%),
+          radial-gradient(1.6px 1.6px at 40% 55%, rgba(181, 169, 255, 0.7), transparent 80%);
+        background-repeat: repeat;
+        background-size: 220px 220px;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(135deg, rgba(255,255,255,0.08), transparent 32%, rgba(255,255,255,0.04) 100%),
+          radial-gradient(ellipse at 12% 6%, rgba(199, 182, 255, 0.32), transparent 26%),
+          radial-gradient(ellipse at 86% 8%, rgba(146, 133, 255, 0.28), transparent 24%);
+        mix-blend-mode: screen;
+      }
+
+      a { text-decoration: none; }
+
+      .page-shell {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 28px 20px 60px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .page-shell::before,
+      .page-shell::after {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        top: 10px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.24), rgba(170, 149, 255, 0.12));
+        border-radius: 50% 50% 45% 55% / 58% 42% 58% 42%;
+        box-shadow:
+          inset 12px 8px 22px rgba(255,255,255,0.12),
+          inset -14px -10px 26px rgba(112, 91, 192, 0.18),
+          0 0 25px rgba(164, 134, 255, 0.18);
+        filter: blur(2px);
+        opacity: 0.72;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .page-shell::before {
+        left: 18px;
+        transform: rotate(-16deg);
+      }
+
+      .page-shell::after {
+        right: 18px;
+        transform: scaleX(-1) rotate(-8deg);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(0, 82, 204, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 28px;
+        padding: 18px 28px;
+        box-shadow: var(--shadow-md);
+        margin-bottom: 8px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        color: var(--dark);
+        font-size: 1.15rem;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--tertiary) 100%);
+        box-shadow: inset 0 1px 10px rgba(255,255,255,0.6), var(--shadow-md);
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 24px;
+        font-weight: 800;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .nav a {
+        padding: 10px 18px;
+        border-radius: 10px;
+        color: var(--text);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+      }
+
+      .nav a:hover {
+        background: rgba(0, 82, 204, 0.08);
+        color: var(--primary);
+      }
+
+      .nav .active {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.45fr 0.95fr;
+        gap: 24px;
+        margin-top: 30px;
+      }
+
+      .hero-main, .hero-side {
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(0, 82, 204, 0.08);
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+      }
+
+      .hero-main {
+        position: relative;
+        padding: 30px 28px 26px;
+      }
+
+      .hero-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .hero-title {
+        margin: 0;
+        font-size: clamp(1.85rem, 2.8vw, 2.8rem);
+        line-height: 1.15;
+        letter-spacing: -0.06em;
+        color: var(--dark);
+        font-weight: 700;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, rgba(0, 82, 204, 0.15), rgba(46, 127, 232, 0.12));
+        color: var(--primary);
+        border: 1px solid rgba(0, 82, 204, 0.2);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .prompt-form {
+        display: grid;
+        gap: 18px;
+        margin-top: 20px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 8px;
+      }
+
+      .form-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--primary-strong);
+        display: block;
+        margin-bottom: 2px;
+      }
+
+      .select-box, .text-input {
+        width: 100%;
+        border: 1.5px solid rgba(0, 82, 204, 0.15);
+        background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(245,250,255,0.98));
+        border-radius: 14px;
+        padding: 14px 16px;
+        font-size: 1rem;
+        color: var(--dark);
+        outline: none;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+        transition: all 0.3s ease;
+      }
+
+      .select-box:focus, .text-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
+        background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(240,248,255,1));
+      }
+
+      .text-input {
+        min-height: 320px;
+        resize: vertical;
+        padding-top: 16px;
+        font-size: 1.02rem;
+        line-height: 1.6;
+      }
+
+      .prompt-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 12px 16px;
+        min-height: 44px;
+        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        line-height: 1.2;
+      }
+
+      .button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .button:active {
+        transform: translateY(-1px);
+      }
+
+      .button.active,
+      .button.active:hover,
+      .button.primary.active,
+      .button.primary.active:hover,
+      .button.secondary.active,
+      .button.secondary.active:hover,
+      .button.ghost.active,
+      .button.ghost.active:hover {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: #ffffff;
+        border-color: transparent;
+        box-shadow: 0 8px 18px rgba(0, 82, 204, 0.26);
+        transform: translateY(-1px);
+        font-weight: 700;
+      }
+
+      .button.primary,
+      .button.secondary,
+      .button.ghost {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        border: 1px solid rgba(0, 82, 204, 0.18);
+        box-shadow: var(--shadow-md);
+      }
+
+      .button.primary:hover,
+      .button.secondary:hover,
+      .button.ghost:hover {
+        box-shadow: var(--shadow-lg);
+      }
+
+      .button-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1em;
+        line-height: 1;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 26px;
+      }
+
+      .stat {
+        background: rgba(0, 82, 204, 0.05);
+        border: 1px solid rgba(0, 82, 204, 0.1);
+        border-radius: 14px;
+        padding: 18px 16px;
+        text-align: center;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.6rem;
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 500;
+      }
+
+      .hero-side {
+        position: relative;
+        padding: 24px;
+        background: linear-gradient(135deg, rgba(0, 52, 153, 0.95), rgba(0, 82, 204, 0.88));
+        color: white;
+      }
+
+      .mini-panel {
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 22px;
+        padding: 20px;
+        min-height: 100%;
+        backdrop-filter: blur(10px);
+      }
+
+      .mini-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+
+      .mini-head strong {
+        font-size: 1.05rem;
+        font-weight: 700;
+      }
+
+      .mini-status {
+        padding: 6px 10px;
+        border-radius: 6px;
+        background: rgba(255,255,255,0.2);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .mini-card {
+        background: rgba(255,255,255,0.12);
+        border-radius: 14px;
+        padding: 16px;
+        margin-top: 18px;
+      }
+
+      .mini-card h3 {
+        margin: 0 0 12px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .prompt-preview {
+        display: grid;
+        gap: 12px;
+      }
+
+      .prompt-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.15);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .prompt-box {
+        background: rgba(8, 17, 41, 0.22);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        padding: 12px 16px;
+        line-height: 1.6;
+        color: rgba(255,255,255,0.94);
+        font-size: 0.95rem;
+      }
+
+      .lesson-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .lesson-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.1);
+        padding: 12px 14px;
+        font-size: 0.93rem;
+      }
+
+      .tag {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .features {
+        margin-top: 36px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .feature-card {
+        width: 100%;
+        max-width: 100%;
+        background: rgba(255,255,255,0.92);
+        border: 1px solid rgba(0, 82, 204, 0.08);
+        border-radius: 28px;
+        box-shadow: var(--shadow-lg);
+        padding: 28px 24px;
+        transition: all 0.4s ease;
+      }
+
+      .feature-card:hover {
+        box-shadow: var(--shadow-xl);
+        transform: translateY(-2px);
+      }
+
+      .feature-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        font-size: 1.9rem;
+        background: linear-gradient(135deg, rgba(0, 82, 204, 0.12), rgba(46, 127, 232, 0.15));
+        color: var(--primary);
+        box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.5);
+      }
+
+      .feature-card h3 {
+        margin: 18px 0 12px;
+        font-size: 1.55rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 1rem;
+      }
+
+      .feature-panel {
+        margin-top: 20px;
+        background: linear-gradient(180deg, rgba(0, 82, 204, 0.03), rgba(46, 127, 232, 0.05));
+        border: 1px solid rgba(0, 82, 204, 0.08);
+        border-radius: 16px;
+        padding: 16px;
+      }
+
+      .feature-panel .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+      }
+
+      .feature-panel .row:last-child { margin-bottom: 0; }
+
+      .tiny-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        min-width: 100px;
+        padding: 6px 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        background: rgba(0, 82, 204, 0.08);
+        color: var(--primary);
+      }
+
+      .feature-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .problem-workspace {
+        display: grid;
+        gap: 16px;
+        margin-top: 20px;
+      }
+
+      .problem-image-box {
+        min-height: 240px;
+        border: 2px dashed rgba(0, 82, 204, 0.25);
+        background: linear-gradient(135deg, rgba(0, 82, 204, 0.04), rgba(46, 127, 232, 0.06));
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        color: var(--primary);
+        text-align: center;
+        padding: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .problem-image-box img {
+        width: 100%;
+        height: 100%;
+        max-height: 280px;
+        object-fit: contain;
+        border-radius: 14px;
+        display: block;
+      }
+
+      .problem-image-placeholder {
+        display: grid;
+        gap: 8px;
+        place-items: center;
+        font-weight: 600;
+      }
+
+      .problem-image-placeholder .icon {
+        font-size: 2.2rem;
+        opacity: 0.7;
+      }
+
+      .problem-solution-input {
+        width: 100%;
+        min-height: 220px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,253,255,0.98));
+        border: 1.5px solid rgba(0, 82, 204, 0.1);
+        border-radius: 16px;
+        padding: 22px 20px;
+        line-height: 1.8;
+        color: var(--text);
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+        transition: all 0.3s ease;
+        outline: none;
+      }
+
+      .problem-solution-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.08);
+      }
+
+      .problem-solution-input h1,
+      .problem-solution-input h2,
+      .problem-solution-input h3,
+      .problem-solution-input h4 {
+        color: var(--primary-strong);
+        margin: 1.2em 0 0.7em;
+        font-weight: 700;
+      }
+
+      .problem-solution-input p,
+      .problem-solution-input li {
+        margin: 0.5em 0;
+      }
+
+      .problem-solution-input ul,
+      .problem-solution-input ol {
+        padding-left: 1.4em;
+      }
+
+      .problem-solution-input code {
+        background: rgba(0, 82, 204, 0.08);
+        padding: 0.2em 0.4em;
+        border-radius: 6px;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 0.95em;
+      }
+
+      .problem-solution-input img {
+        max-width: 100%;
+        border-radius: 12px;
+        margin: 16px 0;
+        border: 1px solid rgba(0, 82, 204, 0.12);
+        box-shadow: 0 4px 12px rgba(0, 82, 204, 0.1);
+      }
+
+      .problem-solution-input blockquote {
+        margin: 1.1em 0;
+        padding: 1em 1.2em;
+        border-left: 4px solid var(--primary);
+        background: rgba(0, 82, 204, 0.04);
+        border-radius: 0 10px 10px 0;
+      }
+
+      .feature-actions .button {
+        padding: 11px 14px;
+        flex: 1 1 130px;
+        font-size: 0.87rem;
+      }
+
+      .feature-actions .button.secondary,
+      .feature-actions .button.success,
+      .feature-actions .button.ghost {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        border: 1px solid rgba(0, 82, 204, 0.18);
+      }
+
+      .result-panel {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 28px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 250, 255, 0.96));
+        border: 1px solid rgba(0, 82, 204, 0.08);
+        border-radius: 28px;
+        box-shadow: var(--shadow-lg);
+        padding: 24px 22px;
+      }
+
+      .result-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .result-header h3 {
+        margin: 0;
+        font-size: 1.3rem;
+        color: var(--primary-strong);
+        font-weight: 700;
+      }
+
+      .result-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: rgba(0, 82, 204, 0.08);
+        color: var(--primary);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .result-preview {
+        width: 100%;
+        max-width: none;
+        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,253,255,0.98));
+        border: 1.5px solid rgba(0, 82, 204, 0.1);
+        border-radius: 16px;
+        padding: 22px 20px;
+        margin-bottom: 14px;
+        line-height: 1.8;
+        color: var(--text);
+      }
+
+      .result-preview h1,
+      .result-preview h2,
+      .result-preview h3,
+      .result-preview h4 {
+        color: var(--primary-strong);
+        margin: 1.2em 0 0.7em;
+        font-weight: 700;
+      }
+
+      .result-preview p,
+      .result-preview li {
+        margin: 0.5em 0;
+      }
+
+      .result-preview ul,
+      .result-preview ol {
+        padding-left: 1.4em;
+      }
+
+      .result-preview code {
+        background: rgba(0, 82, 204, 0.08);
+        padding: 0.2em 0.4em;
+        border-radius: 6px;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 0.95em;
+      }
+
+      .result-preview img {
+        max-width: 100%;
+        border-radius: 12px;
+        margin: 16px 0;
+        border: 1px solid rgba(0, 82, 204, 0.12);
+        box-shadow: 0 4px 12px rgba(0, 82, 204, 0.1);
+      }
+
+      .result-preview blockquote {
+        margin: 1.1em 0;
+        padding: 1em 1.2em;
+        border-left: 4px solid var(--primary);
+        background: rgba(0, 82, 204, 0.04);
+        border-radius: 0 10px 10px 0;
+      }
+
+      .result-meta {
+        width: 100%;
+        max-width: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 18px 0 16px;
+      }
+
+      .meta-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: rgba(0, 82, 204, 0.06);
+        color: var(--primary);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .result-actions {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      body.is-processing,
+      body.is-processing * {
+        cursor: wait !important;
+      }
+
+      .button.is-busy {
+        opacity: 0.86;
+        filter: saturate(0.9);
+      }
+
+      .status-text {
+        margin-top: 12px;
+        color: var(--primary);
+        font-weight: 600;
+        min-height: 22px;
+        font-size: 0.94rem;
+      }
+
+      .footer-note {
+        margin-top: 40px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 500;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px 16px 28px;
+        margin-top: 12px;
+      }
+
+      footer p {
+        margin: 0;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.01em;
+      }
+
+      @media (max-width: 980px) {
+        .hero { grid-template-columns: 1fr; }
+        .features { grid-template-columns: 1fr; }
+        .button.secondary { font-size: 0.85rem; }
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 14px;
+          padding: 14px 18px;
         }
 
-        body {
-            background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+        .nav {
+          width: 100%;
+          gap: 8px;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
+        .nav a {
+          flex: 1 1 auto;
+          text-align: center;
+          padding: 8px 12px;
+          font-size: 0.9rem;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(45deg, #ff7bf2, #fae8ff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            font-weight: 700;
+        .hero-main, .hero-side {
+          padding: 20px 18px;
         }
-
-        p.subtitle {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
+        
+        .hero-stats { grid-template-columns: 1fr; }
+        
+        .button {
+          padding: 10px 12px;
+          font-size: 0.85rem;
+          min-height: 40px;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
+        
+        .feature-card {
+          padding: 20px 16px;
         }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #f1f5f9;
-            font-size: 0.9rem;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        input:focus {
-            border-color: #ff7bf2;
-            box-shadow: 0 0 10px rgba(255, 123, 242, 0.5);
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(45deg, #d946ef, #8b5cf6);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .result {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            display: none;
-            text-align: left;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .result h3 {
-            color: #ff7bf2;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .result p {
-            margin-bottom: 8px;
-            font-size: 1rem;
-            color: #e2e8f0;
-        }
-
-       .result strong {
-         color: #fff;
-        }
-
-        .resultado-linha {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        #boxImagemSigno img {
-            width: 500px;
-            max-width: 100%;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .horoscopo-box {
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            padding-top: 14px;
-            margin-top: 10px;
-        }
-
-        .horoscopo-box h4 {
-            color: #ff7bf2;
-            margin-bottom: 8px;
-        }
-
-        .horoscopo-box p {
-            line-height: 1.6;
-            color: #e2e8f0;
-        }
+      }
     </style>
-</head>
-
-<body>
-
-    <div class="container">
-        <h1>Portal dos Astros</h1>
-        <p class="subtitle">Descubra a sua idade, o seu signo e o seu horóscopo.</p>
-
-        <form id="astrosForm">
-            <div class="form-group">
-                <label for="nome">Seu Nome</label>
-                <input type="text" id="nome" required placeholder="Ex: Antônio Pereira de Souza Junior">
-            </div>
-
-            <div class="form-group">
-                <label for="dataNascimento">Data de Nascimento</label>
-                <input type="date" id="dataNascimento" required>
-            </div>
-
-            <button type="submit">Revelação</button>
-        </form>
-
-        <div id="resultado" class="result">
-            <div class="resultado-linha">
-
-                <div class="resultado-texto">
-                    <h3>Resultado para <span id="resNome"></span>:</h3>
-                    <p>Idade Atual: <strong id="resIdade"></strong></p>
-                    <p>Signo do Zodíaco: <strong id="resSigno"></strong></p>
-                </div>
-
-                <div id="boxImagemSigno" class="resultado-imagem" style="display:none;">
-                    <img id="imgSigno" alt="Signo do zodíaco">
-                </div>
-
-                <div class="horoscopo-box">
-                    <h4>Horóscopo do dia</h4>
-                    <p id="horoscopoTexto">Carregando...</p>
-                </div>
-            </div>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">✦</div>
+          <span>SabIA - Aplicativo para os Estudos da Anastasia Ferreira de Lima de Souza.</span>
         </div>
-        <p>&copy; 2026 Antônio Pereira de Souza Junior.</p>
-        <p>Todos os direitos reservados.</p>
+
+        <nav class="nav" aria-label="Principal">
+          <a href="#inicio" class="active">Início</a>
+          <a href="#resolucoes" class="active">Resoluções</a>
+          <a href="#conteudo" class="active">Conteúdo</a>
+          <a href="#avaliacoes" class="active">Avaliações</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="inicio">
+          <div class="hero-main">
+            <div class="hero-header">
+              <h2 class="hero-title">Configurar Prompt de Pesquisa:</h2>
+              <span class="hero-badge">Puter</span>
+            </div>
+
+            <div class="prompt-form">
+              <div class="form-group">
+                <label class="form-label" for="materia">Matéria:</label>
+                <select id="materia" class="select-box" aria-label="Selecione a matéria">
+                  <option value="">Selecione a matéria</option>
+                  <option value="Matemática">Matemática</option>
+                  <option value="Português">Português</option>
+                  <option value="Ciências">Ciências</option>
+                  <option value="Ensino Religioso">Ensino Religioso</option>
+                  <option value="História">História</option>
+                  <option value="Geografia">Geografia</option>
+                  <option value="Biologia">Biologia</option>
+                  <option value="Química">Química</option>
+                  <option value="Física">Física</option>
+                  <option value="Inglês">Inglês</option>
+                  <option value="Filosofia">Filosofia</option>
+                  <option value="Sociologia">Sociologia</option>
+                  <option value="Arte">Arte</option>
+                  <option value="Educação Física">Educação Física</option>
+                  <option value="Informática">Informática</option>
+                  <option value="Concurso">Concurso</option>
+                  <option value="Outra">Outras</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="assunto">Assunto:</label>
+                <textarea
+                  id="assunto"
+                  class="text-input"
+                  placeholder="Digite o assunto específico ou Grave um áudio, por exemplo: equações do 2º grau, interpretação de texto, reformas no Brasil..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="prompt-actions">
+              <button class="button primary" id="btnGravarAssunto" type="button"><span class="button-icon">🎙️</span><span>Gravar Áudio</span></button>
+              <button class="button primary" id="btnPararGravacao" type="button"><span class="button-icon">⏹️</span><span>Parar Gravação</span></button>
+              <button class="button primary" id="btnLerAssunto" type="button"><span class="button-icon">🔊</span><span>Ouvir Assunto</span></button>
+              <button class="button primary" id="btnGerarAnalise" type="button"><span class="button-icon">🔎</span><span>Pesquisar</span></button>
+              <button class="button ghost" id="btnLimparPrompt" type="button"><span class="button-icon">🧹</span><span>Limpar Tudo</span></button>
+            </div>
+          </div>
+
+          <aside class="hero-side">
+            <div class="mini-panel">
+              <div class="mini-head">
+                <strong>Resumo do prompt</strong>
+                <span class="mini-status">Puter</span>
+              </div>
+
+              <div class="mini-card">
+                <div class="prompt-preview">
+                  <span class="prompt-chip">Matéria</span>
+                  <div class="prompt-box">Matemática</div>
+
+                  <span class="prompt-chip">Assunto</span>
+                  <div class="prompt-box">Equações do 2º grau</div>
+                </div>
+              </div>
+
+              <div class="mini-card">
+                <h3>Objetivo da sessão</h3>
+                <div class="lesson-list">
+                  <div class="lesson-item"><span>Resolução</span><span class="tag">Ativa</span></div>
+                  <div class="lesson-item"><span>Conteúdo</span><span class="tag">Completo</span></div>
+                  <div class="lesson-item"><span>Avaliação</span><span class="tag">Pronta</span></div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="features">
+          <article class="feature-card" id="resolucoes">
+            <div class="feature-icon">📷</div>
+            <h3>Resolução de Problemas</h3>
+            <p>
+              Tire uma foto do exercício ou envie uma imagem para receber explicações visuais passo a passo.
+            </p>
+
+            <div class="problem-workspace">
+              <div class="problem-image-box" id="problemImageBox" aria-label="Pré-visualização da imagem do problema">
+                <div class="problem-image-placeholder">
+                  <span class="icon">🖼️</span>
+                  
+                  <span>Imagem do exercício ou problema</span>
+                </div>
+              </div>
+
+              <div
+                id="problemSolutionInput"
+                class="problem-solution-input"
+                aria-live="polite"
+                contenteditable="true"
+                role="textbox"
+                aria-label="Resposta estruturada da resolução do problema"
+              >
+                <p>Receba a resolução estruturada do problema a partir da imagem carregada.</p>
+              </div>
+            </div>
+
+            <div class="feature-actions">
+              <button class="button primary" type="button" data-action="camera"><span class="button-icon">📷</span><span>Usar Câmera</span></button>
+              <button class="button secondary" type="button" id="btnUploadArquivo"><span class="button-icon">⬆️</span><span>Carregar Imagem</span></button>
+              <button class="button secondary" type="button" data-action="read-output"><span class="button-icon">🔊</span><span>Ouvir Respostas</span></button>
+              <button class="button secondary" type="button" id="btnPausarAudio"><span class="button-icon">⏸️</span><span>Pausar Áudio</span></button>
+              <button class="button secondary" type="button" id="btnContinuarAudio"><span class="button-icon">▶️</span><span>Continuar Áudio</span></button>
+              <button class="button secondary" type="button" data-action="stop-audio"><span class="button-icon">⏹️</span><span>Parar Áudio</span></button>
+              <button class="button secondary" type="button" id="btnCopiarConteudoProblema"><span class="button-icon">📋</span><span>Cópiar (Ctrl+C)</span></button>
+              <button class="button ghost" type="button" id="btnLimparResolucao"><span class="button-icon">🧹</span><span>Limpar Imagem</span></button>
+            </div>
+            <input id="inputUploadArquivo" type="file" accept="image/*,.pdf" style="display:none;" />
+          </article>
+
+          <article class="feature-card" id="conteudo">
+            <div class="feature-icon">📘</div>
+            <h3>Conteúdo do Assunto</h3>
+            <p>
+              Acesse explicações completas de qualquer tema e gere material de estudo organizado para revisão.
+            </p>
+
+            <div class="result-meta">
+              <span class="meta-pill">Matéria</span>
+              <span class="meta-pill">Assunto</span>
+              <span class="meta-pill">Explicação</span>
+            </div>
+
+            <div id="content-result-preview" class="result-preview" aria-live="polite">
+              <p>Seu conteúdo gerado aparecerá aqui em formato organizado, com fórmulas e imagens quando necessário.</p>
+            </div>
+
+            <div class="result-actions">
+              <button class="button primary" id="btnLerResultado" type="button"><span class="button-icon">🔊</span><span>Ouvir Conteúdo</span></button>
+              <button class="button secondary" id="btnPausarAudioConteudo" type="button"><span class="button-icon">⏸️</span><span>Pausar Áudio</span></button>
+              <button class="button secondary" id="btnContinuarAudioConteudo" type="button"><span class="button-icon">▶️</span><span>Continuar Áudio</span></button>
+              <button class="button secondary" id="btnPararResultadoConteudo" type="button"><span class="button-icon">⏹️</span><span>Parar Áudio</span></button>
+              <button class="button secondary" id="btnCopiarConteudoAssunto" type="button"><span class="button-icon">📋</span><span>Cópiar (Ctrl+C)</span></button>
+            </div>
+          </article>
+
+          <article class="feature-card" id="avaliacoes">
+            <div class="feature-icon">📝</div>
+            <h3>Atividades e Avaliações</h3>
+            <p>
+              Crie 10 questões de múltipla escolha com alternativas A, B, C e D, conforme a matéria e o assunto selecionados.
+            </p>
+
+            <div class="result-meta">
+              <span class="meta-pill">10 questões</span>
+              <span class="meta-pill">Múltipla escolha</span>
+              <span class="meta-pill">Gabarito</span>
+            </div>
+
+            <div id="quiz-preview" class="result-preview" aria-live="polite">
+              <p>As 10 questões de múltipla escolha aparecerão aqui com alternativas A, B, C e D.</p>
+            </div>
+
+            <div class="result-actions">
+              <button class="button primary" id="btnLerResultadoAtividades" type="button"><span class="button-icon">🔊</span><span>Ouvir Questões</span></button>
+              <button class="button secondary" id="btnPausarAudioAtividades" type="button"><span class="button-icon">⏸️</span><span>Pausar Áudio</span></button>
+              <button class="button secondary" id="btnContinuarAudioAtividades" type="button"><span class="button-icon">▶️</span><span>Continuar Áudio</span></button>
+              <button class="button secondary" id="btnPararAudioAtividades" type="button"><span class="button-icon">⏹️</span><span>Parar Áudio</span></button>
+              <button class="button secondary" id="btnVerGabarito" type="button"><span class="button-icon">✅</span><span>Ver Gabarito</span></button>
+              <button class="button secondary" id="btnCopiarConteudoAtividades" type="button"><span class="button-icon">📋</span><span>Cópiar (Ctrl+C)</span></button>
+            </div>
+            <div id="status-text" class="status-text">Aguardando ação.</div>
+          </article>
+        </section>
+
+
+
+        <div class="footer-note">Design pensado para facilitar a rotina de estudo com tecnologia, organização e clareza visual.</div>
+      </main>
     </div>
 
+    <script src="https://js.puter.com/v2/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
-        function calcularSigno(dataNasc) {
-            const dia = dataNasc.getUTCDate();
-            const mesSigno = dataNasc.getUTCMonth() + 1;
+      const materiaInput = document.getElementById('materia');
+      const assuntoInput = document.getElementById('assunto');
+      const contentResultPreview = document.getElementById('content-result-preview');
+      const resultPreview = document.getElementById('content-result-preview');
+      const quizPreview = document.getElementById('quiz-preview');
+      const statusText = document.getElementById('status-text');
+      let currentQuizData = null;
+      let gabaritoAtivo = false;
 
-            if ((mesSigno === 3 && dia >= 21) || (mesSigno === 4 && dia <= 20)) {
-                return { signo: 'Áries ♈', imagem: '01 - ARIES.png' };
-            }
-            if ((mesSigno === 4 && dia >= 21) || (mesSigno === 5 && dia <= 20)) {
-                return { signo: 'Touro ♉', imagem: '02 - TOURO.png' };
-            }
-            if ((mesSigno === 5 && dia >= 21) || (mesSigno === 6 && dia <= 20)) {
-                return { signo: 'Gêmeos ♊', imagem: '03 - GÊMEOS.png' };
-            }
-            if ((mesSigno === 6 && dia >= 21) || (mesSigno === 7 && dia <= 22)) {
-                return { signo: 'Câncer ♋', imagem: '04 - CÂNCER.png' };
-            }
-            if ((mesSigno === 7 && dia >= 23) || (mesSigno === 8 && dia <= 22)) {
-                return { signo: 'Leão ♌', imagem: '05 - LEÃO.png' };
-            }
-            if ((mesSigno === 8 && dia >= 23) || (mesSigno === 9 && dia <= 22)) {
-                return { signo: 'Virgem ♍', imagem: '06 - VIRGEM.png' };
-            }
-            if ((mesSigno === 9 && dia >= 23) || (mesSigno === 10 && dia <= 22)) {
-                return { signo: 'Libra ♎', imagem: '07 - LIBRA.png' };
-            }
-            if ((mesSigno === 10 && dia >= 23) || (mesSigno === 11 && dia <= 21)) {
-                return { signo: 'Escorpião ♏', imagem: '08 - ESCORPIÃO.png' };
-            }
-            if ((mesSigno === 11 && dia >= 22) || (mesSigno === 12 && dia <= 21)) {
-                return { signo: 'Sagitário ♐', imagem: '09 - Sagitário.png' };
-            }
-            if ((mesSigno === 12 && dia >= 22) || (mesSigno === 1 && dia <= 20)) {
-                return { signo: 'Capricórnio ♑', imagem: '10 - Capricórnio.png' };
-            }
-            if ((mesSigno === 1 && dia >= 21) || (mesSigno === 2 && dia <= 18)) {
-                return { signo: 'Aquário ♒', imagem: '11 - Aquário.png' };
-            }
-            if ((mesSigno === 2 && dia >= 19) || (mesSigno === 3 && dia <= 20)) {
-                return { signo: 'Peixes ♓', imagem: '12 - PEIXES.png' };
-            }
+      const setButtonLabelGabarito = () => {
+        const btnVerGabarito = document.getElementById('btnVerGabarito');
+        if (!btnVerGabarito) return;
 
-            return { signo: 'Signo não identificado', imagem: '' };
+        const icon = gabaritoAtivo ? '🧩' : '✅';
+        const label = gabaritoAtivo ? 'Ver Questão' : 'Ver Gabarito';
+
+        btnVerGabarito.innerHTML = `<span class="button-icon">${icon}</span><span>${label}</span>`;
+      };
+
+      const syncContentCardPreview = () => {
+        if (!contentResultPreview || !resultPreview) return;
+        resultPreview.innerHTML = resultPreview.innerHTML || '<p>Seu conteúdo gerado aparecerá aqui em formato organizado, com fórmulas e imagens quando necessário.</p>';
+      };
+
+      const escapeHtml = (value) => value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      const getStructuredText = () => {
+        return (resultPreview.textContent || '').trim();
+      };
+
+      const formatResultText = (text) => {
+        if (!text || !text.trim()) {
+          return '<p>Seu conteúdo gerado aparecerá aqui em formato organizado, com fórmulas e imagens quando necessário.</p>';
         }
 
-        async function buscarHoroscopo(signo) {
-            const elemento = document.getElementById('horoscopoTexto');
-            elemento.textContent = 'Buscando o horóscopo do dia...';
+        let html = escapeHtml(text);
 
-            if (!window.puter || !window.puter.ai) {
-                elemento.textContent = 'Puter não carregou. Verifique se a biblioteca do Puter está disponível e se você está logado.';
-                return;
-            }
+        html = html
+          .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+          .replace(/\$\$([\s\S]+?)\$\$/g, '<div class="math-block">$$$1$$</div>')
+          .replace(/\$([^$\n]+)\$/g, '<span class="math-inline">$1</span>')
+          .replace(/!\[(.*?)\]\((https?:\/\/[^)\s]+(?:\([^)]*\)[^)]*)?)\)/g, '<img src="$2" alt="$1">')
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.+?)\*/g, '<em>$1</em>')
+          .replace(/###\s*(.+)/g, '<h3>$1</h3>')
+          .replace(/##\s*(.+)/g, '<h2>$1</h2>')
+          .replace(/#\s*(.+)/g, '<h1>$1</h1>');
 
-            try {
-                const resposta = await window.puter.ai.chat(
-                    `Você é um astrólogo. Me diga o horóscopo do dia para o signo ${signo}. Responda em português, em 3 frases curtas e naturais.`
-                );
+        const blocks = html.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
 
-                const texto = typeof resposta === 'string'
-                    ? resposta
-                    : resposta?.message?.content || resposta?.content || 'Não foi possível obter o horóscopo do dia.';
+        const rendered = blocks.map((block) => {
+          if (/^<h[1-3]>/.test(block)) return block;
+          if (/^<pre>/.test(block)) return block;
+          if (/^<img\s/.test(block)) return block;
 
-                elemento.textContent = texto;
-            } catch (error) {
-                console.error('Erro ao buscar horóscopo:', error);
-                elemento.textContent = 'Não foi possível buscar o horóscopo do dia no momento.';
-            }
+          const lines = block.split(/\n/).map((line) => line.trim()).filter(Boolean);
+
+          if (lines.every((line) => /^[-*]\s+/.test(line))) {
+            const items = lines.map((line) => `<li>${line.replace(/^[-*]\s+/, '')}</li>`).join('');
+            return `<ul>${items}</ul>`;
+          }
+
+          if (lines.every((line) => /^\d+\.\s+/.test(line))) {
+            const items = lines.map((line) => `<li>${line.replace(/^\d+\.\s+/, '')}</li>`).join('');
+            return `<ol>${items}</ol>`;
+          }
+
+          return `<p>${lines.join('<br>')}</p>`;
+        }).join('');
+
+        return rendered;
+      };
+
+      const renderResultPreview = (text = '') => {
+        const source = text || getStructuredText();
+        if (contentResultPreview) {
+          contentResultPreview.innerHTML = formatResultText(source);
+        }
+        if (window.MathJax && typeof MathJax.typeset === 'function') {
+          MathJax.typesetPromise?.([contentResultPreview]).catch(() => {});
+        }
+      };
+
+      const parseQuizResponse = (rawText) => {
+        if (!rawText) return null;
+
+        try {
+          const cleaned = rawText.replace(/```json|```/gi, '').trim();
+          const parsed = JSON.parse(cleaned);
+          if (parsed && Array.isArray(parsed.questions)) {
+            return parsed;
+          }
+        } catch (error) {
+          console.warn('JSON da atividade não foi parseável:', error);
         }
 
-        document.getElementById('astrosForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
+        const text = rawText.replace(/\r/g, '').trim();
+        const blocks = text.split(/\n\s*\n+/).filter(Boolean);
+        const questions = [];
 
-            const nome = document.getElementById('nome').value.trim();
-            const dataNascInput = document.getElementById('dataNascimento').value;
+        blocks.forEach((block) => {
+          const lines = block.split(/\n/).map(line => line.trim()).filter(Boolean);
+          if (lines.length === 0) return;
 
-            if (!dataNascInput) return;
+          const questionMatch = lines[0].match(/^\s*(?:\d+\.?\s*[-:])?\s*(.+)$/i);
+          const questionText = questionMatch ? questionMatch[1] : lines[0];
 
-            const dataNasc = new Date(`${dataNascInput}T12:00:00`);
-            const hoje = new Date();
-
-            let idade = hoje.getFullYear() - dataNasc.getFullYear();
-            const mes = hoje.getMonth() - dataNasc.getMonth();
-            if (mes < 0 || (mes === 0 && hoje.getDate() < dataNasc.getDate())) {
-                idade--;
+          const options = {};
+          const optionMatches = lines.slice(1).filter(line => /^[A-Da-d][\)|\.]\s*/.test(line));
+          optionMatches.forEach((line) => {
+            const match = line.match(/^\s*([A-Da-d])[\)|\.]\s*(.+)$/i);
+            if (match) {
+              options[match[1].toUpperCase()] = match[2].trim();
             }
+          });
 
-            const resultado = calcularSigno(dataNasc);
-            const signo = resultado.signo;
-            const imagemSigno = resultado.imagem;
-
-            document.getElementById('resNome').textContent = nome || 'Usuário';
-            document.getElementById('resIdade').textContent = idade;
-            document.getElementById('resSigno').textContent = signo;
-            document.getElementById('imgSigno').src = imagemSigno;
-            document.getElementById('boxImagemSigno').style.display = 'block';
-            document.getElementById('resultado').style.display = 'block';
-
-            await buscarHoroscopo(signo);
+          if (questionText) {
+            questions.push({
+              numero: questions.length + 1,
+              pergunta: questionText,
+              opcoes: options,
+              respostaCorreta: '',
+              explicacao: 'Releia o tema e verifique o conceito principal da questão.'
+            });
+          }
         });
-        
-    </script>
 
-    </body>
+        return questions.length ? { questions } : null;
+      };
+
+      const renderQuizQuestionsFromData = (quizData) => {
+        if (!quizPreview) return;
+
+        if (!quizData || !Array.isArray(quizData.questions) || quizData.questions.length === 0) {
+          quizPreview.innerHTML = formatResultText('Nenhuma atividade foi gerada ainda.');
+          return;
+        }
+
+        const html = quizData.questions.map((questao, index) => {
+          const opcoes = questao.opcoes || {};
+          const itens = ['A', 'B', 'C', 'D'].map((letra) => {
+            const valor = opcoes[letra];
+            return valor ? `<li><strong>${letra})</strong> ${valor}</li>` : '';
+          }).join('');
+
+          return `
+            <div class="quiz-item" style="margin-bottom: 1.1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(13, 91, 215, 0.12);">
+              <p><strong>Questão ${index + 1}:</strong> ${questao.pergunta}</p>
+              <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">${itens}</ul>
+            </div>
+          `;
+        }).join('');
+
+        quizPreview.innerHTML = html;
+      };
+
+      const renderQuizPreview = (rawText = '') => {
+        const quizData = parseQuizResponse(rawText);
+        currentQuizData = quizData;
+        gabaritoAtivo = false;
+        setButtonLabelGabarito();
+
+        if (!quizData || !Array.isArray(quizData.questions) || quizData.questions.length === 0) {
+          quizPreview.innerHTML = formatResultText(rawText || 'Nenhuma atividade foi gerada ainda.');
+          return;
+        }
+
+        renderQuizQuestionsFromData(quizData);
+      };
+
+      const buildPrompt = (tipo) => {
+        const materia = (materiaInput.value || 'Matéria').trim();
+        const assunto = (assuntoInput.value || 'assunto em estudo').trim();
+
+        const prompts = {
+          geral: `Atue como tutor acadêmico especialista em ${materia}. Analise o assunto ${assunto} com linguagem clara, didática e objetiva. Responda em estrutura de estudo, em Markdown, com títulos, tópicos e exemplos. Use se necessário fórmulas em LaTeX no formato $$...$$ ou $...$. Se houver imagem útil, indique uma descrição visual em texto ou use markdown de imagem como ![Legenda](URL). Organize a resposta em: Resumo, Conceitos principais, Fórmula principal, Passo a passo, Exemplo prático e Dica de estudo.`,
+          resolver: `Atue como professor de ${materia}. Resolva o problema relacionado a ${assunto} com explicação visual, passo a passo, linguagem simples e bem organizada. Responda em Markdown, com seções como: Objetivo, Fórmula, Cálculo, Interpretação e Verificação final. Sempre que houver equação, use LaTeX como $$...$$. Se puder ilustrar, use descrição textual ou imagem em markdown.`,
+          conteudo: `Crie um conteúdo completo e bem detalhado sobre ${assunto} na disciplina de ${materia}. Organize em introdução, conceitos principais, exemplos, fórmulas, exercícios e revisão final. Formato em Markdown com títulos, listas e explicação didática. Use fórmulas em LaTeX quando necessário e inclua uma imagem ou descrição de imagem sempre que a parte visual ajudar.`,
+          atividade: `Crie atividades escolares sobre ${assunto} na disciplina de ${materia}. Inclua enunciados, níveis de dificuldade, respostas curtas e gabarito explicado. Formate em Markdown com títulos, passos, exercícios e dicas. Se houver fórmula, use LaTeX. Se houver ilustração útil, use markdown de imagem ou frase explicativa.`,
+          gabarito: `Forneça o gabarito completo e comentado das atividades sobre ${assunto} de ${materia}. Inclua respostas detalhadas, justificativas didáticas e, quando necessário, fórmulas em LaTeX. Formate em Markdown com tópicos claros e exemplos.`
+        };
+
+        return prompts[tipo] || prompts.geral;
+      };
+
+      const speakText = (text) => {
+        if (!text) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'pt-BR';
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utterance);
+      };
+
+      const stopSpeech = () => speechSynthesis.cancel();
+
+      const pausarAudio = () => {
+        if (speechSynthesis.speaking && !speechSynthesis.paused) {
+          speechSynthesis.pause();
+          setStatus('Áudio pausado.');
+        } else {
+          setStatus('Nenhuma leitura em execução para pausar.');
+        }
+      };
+
+      const continuarAudio = () => {
+        const text = getStructuredText();
+        if (!text) {
+          setStatus('Ainda não há resposta para continuar a leitura.');
+          return;
+        }
+
+        if (speechSynthesis.paused) {
+          speechSynthesis.resume();
+          setStatus('Leitura retomada.');
+        } else {
+          speakText(text);
+          setStatus('Lendo a resposta...');
+        }
+      };
+
+      const setStatus = (message) => {
+        if (statusText) {
+          statusText.textContent = message;
+        }
+      };
+
+      const setActiveButtonState = (button) => {
+        document.querySelectorAll('.button').forEach((item) => {
+          item.classList.toggle('active', item === button);
+        });
+      };
+
+      document.querySelectorAll('.button').forEach((button) => {
+        button.addEventListener('click', () => {
+          setActiveButtonState(button);
+        });
+      });
+
+      const setBusyState = (isBusy, message = '') => {
+        document.body.classList.toggle('is-processing', isBusy);
+
+        document.querySelectorAll('.button').forEach((button) => {
+          button.classList.toggle('is-busy', isBusy);
+        });
+
+        if (message) {
+          setStatus(message);
+        }
+      };
+
+      const withBusyState = async (callback, successMessage, loadingMessage = 'Pedido enviado ao Puter. Aguarde...') => {
+        setBusyState(true, loadingMessage);
+
+        try {
+          const result = await callback();
+          setBusyState(false, successMessage || 'Pedido entregue com sucesso. Resposta recebida.');
+          return result;
+        } catch (error) {
+          setBusyState(false, 'Não foi possível concluir o pedido no momento.');
+          throw error;
+        }
+      };
+
+      const lerResultado = () => {
+        const text = getStructuredText();
+        if (!text) {
+          setStatus('Ainda não há resposta para ler.');
+          return;
+        }
+
+        speakText(text);
+        setStatus('Lendo a resposta...');
+      };
+
+      const lerRespostaProblema = () => {
+        const text = getProblemSolutionText();
+        if (!text) {
+          setStatus('Ainda não há resolução para ler.');
+          return;
+        }
+
+        speakText(text);
+        setStatus('Lendo a resolução do problema...');
+      };
+
+      const gerarRespostaPuter = async (tipo) => {
+        const materia = (materiaInput.value || '').trim();
+        const assunto = (assuntoInput.value || '').trim();
+
+        if (!materia || !assunto) {
+          setStatus('Selecione a matéria e descreva o assunto antes de continuar.');
+          return;
+        }
+
+        const prompt = buildPrompt(tipo);
+
+        await withBusyState(async () => {
+          const resposta = await puter.ai.chat(prompt);
+          const texto = typeof resposta === 'string' ? resposta : String(resposta || '');
+          renderResultPreview(texto);
+        }, 'Pedido entregue com sucesso. Resposta recebida do Puter.', 'Pedido enviado ao Puter. Aguarde...');
+      };
+
+      const gerarAtividadesPuter = async () => {
+        const materia = (materiaInput.value || '').trim();
+        const assunto = (assuntoInput.value || '').trim();
+
+        if (!materia || !assunto) {
+          setStatus('Selecione a matéria e o assunto antes de gerar as atividades.');
+          return;
+        }
+
+        const prompt = `Crie exatamente 10 questões de múltipla escolha sobre ${assunto} na disciplina de ${materia}. Use apenas alternativas A, B, C e D. Para cada questão, devolva um objeto JSON válido com a estrutura: {"questions":[{"numero":1,"pergunta":"...","opcoes":{"A":"...","B":"...","C":"...","D":"..."},"respostaCorreta":"A","explicacao":"..."}, ... ]}. Responda somente com JSON válido, sem texto extra antes ou depois e sem markdown.`;
+
+        await withBusyState(async () => {
+          const resposta = await puter.ai.chat(prompt);
+          const texto = typeof resposta === 'string' ? resposta : String(resposta || '');
+          renderQuizPreview(texto);
+        }, 'Pedido entregue com sucesso. Atividades recebidas.', 'Gerando atividades com o Puter... Aguarde...');
+      };
+
+      const mostrarGabarito = () => {
+        if (!currentQuizData || !Array.isArray(currentQuizData.questions) || currentQuizData.questions.length === 0) {
+          setStatus('Primeiro gere as atividades para ver o gabarito.');
+          return;
+        }
+
+        const html = currentQuizData.questions.map((questao, index) => {
+          const resposta = questao.respostaCorreta || 'A';
+          const explicacao = questao.explicacao || 'A resposta correta é a alternativa mais adequada ao conteúdo estudado.';
+
+          return `
+            <div style="margin-bottom: 1.2rem; border-bottom: 1px solid rgba(13, 91, 215, 0.12); padding-bottom: 0.8rem;">
+              <p><strong>Questão ${index + 1}:</strong> ${questao.pergunta}</p>
+              <p><strong>Resposta correta:</strong> ${resposta}</p>
+              <p><strong>Explicação:</strong> ${explicacao}</p>
+            </div>
+          `;
+        }).join('');
+
+        if (quizPreview) {
+          quizPreview.innerHTML = html;
+        }
+
+        gabaritoAtivo = true;
+        setButtonLabelGabarito();
+        setStatus('Gabarito exibido com explicação.');
+      };
+
+      const mostrarQuestoes = () => {
+        if (!currentQuizData || !Array.isArray(currentQuizData.questions) || currentQuizData.questions.length === 0) {
+          setStatus('Primeiro gere as atividades para retornar às questões.');
+          return;
+        }
+
+        gabaritoAtivo = false;
+        setButtonLabelGabarito();
+        renderQuizQuestionsFromData(currentQuizData);
+        setStatus('Questões exibidas novamente.');
+      };
+
+      document.getElementById('btnGerarAnalise').addEventListener('click', async () => {
+        await gerarRespostaPuter('geral');
+        if (materiaInput.value && assuntoInput.value) {
+          await gerarAtividadesPuter();
+        }
+      });
+      document.getElementById('btnLerResultadoAtividades').addEventListener('click', () => {
+        const texto = quizPreview ? (quizPreview.textContent || '').trim() : '';
+        if (!texto) {
+          setStatus('Ainda não há atividades para ler.');
+          return;
+        }
+        speakText(texto);
+        setStatus('Lendo as atividades...');
+      });
+      document.getElementById('btnPausarAudioAtividades').addEventListener('click', () => {
+        if (speechSynthesis.speaking && !speechSynthesis.paused) {
+          speechSynthesis.pause();
+          setStatus('Áudio pausado.');
+        } else {
+          setStatus('Nenhuma leitura em execução para pausar.');
+        }
+      });
+      document.getElementById('btnContinuarAudioAtividades').addEventListener('click', () => {
+        const texto = quizPreview ? (quizPreview.textContent || '').trim() : '';
+        if (!texto) {
+          setStatus('Ainda não há atividades para continuar.');
+          return;
+        }
+        if (speechSynthesis.paused) {
+          speechSynthesis.resume();
+          setStatus('Leitura retomada.');
+        } else {
+          speakText(texto);
+          setStatus('Lendo as atividades...');
+        }
+      });
+      document.getElementById('btnPararAudioAtividades').addEventListener('click', () => { stopSpeech(); setStatus('Áudio interrompido.'); });
+
+      const copiarConteudoAtividades = async () => {
+        const texto = quizPreview ? (quizPreview.innerText || quizPreview.textContent || '').trim() : '';
+
+        if (!texto) {
+          setStatus('Ainda não há conteúdo para copiar.');
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(texto);
+          setStatus('Conteúdo copiado para a área de transferência.');
+        } catch (error) {
+          try {
+            const textarea = document.createElement('textarea');
+            textarea.value = texto;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.top = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            setStatus('Conteúdo copiado para a área de transferência.');
+          } catch (fallbackError) {
+            console.error('Erro ao copiar texto:', fallbackError);
+            setStatus('Não foi possível copiar o conteúdo.');
+          }
+        }
+      };
+
+      document.getElementById('btnCopiarConteudoAtividades').addEventListener('click', copiarConteudoAtividades);
+      document.getElementById('btnVerGabarito').addEventListener('click', () => {
+        if (gabaritoAtivo) {
+          mostrarQuestoes();
+        } else {
+          mostrarGabarito();
+        }
+      });
+      document.getElementById('btnLerResultado').addEventListener('click', lerResultado);
+      document.getElementById('btnPausarAudio').addEventListener('click', pausarAudio);
+      document.getElementById('btnContinuarAudio').addEventListener('click', () => {
+        const text = getProblemSolutionText();
+        if (!text) {
+          setStatus('Ainda não há resolução para continuar a leitura.');
+          return;
+        }
+        if (speechSynthesis.paused) {
+          speechSynthesis.resume();
+          setStatus('Leitura retomada.');
+        } else {
+          speakText(text);
+          setStatus('Lendo a resolução...');
+        }
+      });
+      document.getElementById('btnPausarAudioConteudo').addEventListener('click', pausarAudio);
+      document.getElementById('btnContinuarAudioConteudo').addEventListener('click', continuarAudio);
+      document.getElementById('btnPararResultadoConteudo').addEventListener('click', () => { stopSpeech(); setStatus('Leitura interrompida.'); });
+
+      document.getElementById('btnCopiarConteudoProblema').addEventListener('click', async () => {
+        const texto = getProblemSolutionText();
+
+        if (!texto) {
+          setStatus('Ainda não há resolução para copiar.');
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(texto);
+          setStatus('Resolução copiada para a área de transferência.');
+        } catch (error) {
+          try {
+            const textarea = document.createElement('textarea');
+            textarea.value = texto;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.top = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            setStatus('Resolução copiada para a área de transferência.');
+          } catch (fallbackError) {
+            console.error('Erro ao copiar texto da resolução:', fallbackError);
+            setStatus('Não foi possível copiar a resolução.');
+          }
+        }
+      });
+
+      document.getElementById('btnCopiarConteudoAssunto').addEventListener('click', async () => {
+        const texto = resultPreview ? (resultPreview.innerText || resultPreview.textContent || '').trim() : '';
+
+        if (!texto) {
+          setStatus('Ainda não há conteúdo para copiar.');
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(texto);
+          setStatus('Conteúdo do assunto copiado para a área de transferência.');
+        } catch (error) {
+          try {
+            const textarea = document.createElement('textarea');
+            textarea.value = texto;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.top = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            setStatus('Conteúdo do assunto copiado para a área de transferência.');
+          } catch (fallbackError) {
+            console.error('Erro ao copiar texto do assunto:', fallbackError);
+            setStatus('Não foi possível copiar o conteúdo do assunto.');
+          }
+        }
+      });
+
+      const speakSubject = () => {
+        const assunto = assuntoInput.value.trim();
+        if (!assunto) {
+          setStatus('Digite um assunto para ouvir a leitura.');
+          return;
+        }
+
+        speakText(`${assunto}`);
+        setStatus('Lendo o assunto...');
+      };
+
+      document.getElementById('btnLerAssunto').addEventListener('click', speakSubject);
+      document.getElementById('btnLimparPrompt').addEventListener('click', () => {
+        if (materiaInput) materiaInput.value = '';
+        if (assuntoInput) assuntoInput.value = '';
+
+        if (problemImageBox) {
+          problemImageBox.innerHTML = '<div class="problem-image-placeholder"><span class="icon">🖼️</span><span>Imagem do exercício ou problema</span></div>';
+        }
+
+        if (problemSolutionInput) {
+          renderProblemSolution('');
+        }
+
+        if (resultPreview) {
+          resultPreview.innerHTML = '<p>Seu conteúdo gerado aparecerá aqui em formato organizado, com fórmulas e imagens quando necessário.</p>';
+        }
+
+        if (quizPreview) {
+          quizPreview.innerHTML = '<p>As 10 questões de múltipla escolha aparecerão aqui com alternativas A, B, C e D.</p>';
+        }
+
+        currentQuizData = null;
+        gabaritoAtivo = false;
+        if (document.getElementById('btnVerGabarito')) {
+          setButtonLabelGabarito();
+        }
+
+        syncContentCardPreview();
+        setStatus('Tudo limpo. Estado inicial restaurado.');
+      });
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      let recognition = null;
+
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'pt-BR';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onresult = (event) => {
+          let texto = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            texto += event.results[i][0].transcript;
+          }
+          assuntoInput.value = (assuntoInput.value + ' ' + texto).trim();
+          setStatus('Áudio convertido para texto.');
+        };
+
+        recognition.onerror = () => {
+          setStatus('Não foi possível capturar o áudio.');
+        };
+      }
+
+      document.getElementById('btnGravarAssunto').addEventListener('click', () => {
+        if (!recognition) {
+          setStatus('Seu navegador não suporta reconhecimento de voz.');
+          return;
+        }
+
+        try {
+          recognition.start();
+          setStatus('Gravando áudio... Fale agora.');
+        } catch (error) {
+          setStatus('Gravação já está ativa.');
+        }
+      });
+
+      document.getElementById('btnPararGravacao').addEventListener('click', () => {
+        if (recognition) {
+          recognition.stop();
+          setStatus('Gravação interrompida.');
+        }
+      });
+
+      const inputUploadArquivo = document.getElementById('inputUploadArquivo');
+      const btnUploadArquivo = document.getElementById('btnUploadArquivo');
+      const problemImageBox = document.getElementById('problemImageBox');
+      const problemSolutionInput = document.getElementById('problemSolutionInput');
+      const btnLimparResolucao = document.getElementById('btnLimparResolucao');
+
+      const renderProblemSolution = (text = '') => {
+        if (!problemSolutionInput) return;
+
+        const value = text && text.trim() ? text : 'Receba a resolução estruturada do problema a partir da imagem carregada.';
+        problemSolutionInput.innerHTML = formatResultText(value);
+
+        if (window.MathJax && typeof MathJax.typeset === 'function') {
+          MathJax.typesetPromise?.([problemSolutionInput]).catch(() => {});
+        }
+      };
+
+      const getProblemSolutionText = () => problemSolutionInput ? (problemSolutionInput.textContent || '').trim() : '';
+
+      const copiarTextoResolucao = async () => {
+        const texto = getProblemSolutionText();
+        if (!texto) {
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(texto);
+        } catch (error) {
+          try {
+            const textarea = document.createElement('textarea');
+            textarea.value = texto;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.top = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+          } catch (fallbackError) {
+            console.warn('Não foi possível copiar a resolução:', fallbackError);
+          }
+        }
+      };
+
+      if (btnUploadArquivo && inputUploadArquivo) {
+        btnUploadArquivo.addEventListener('click', () => {
+          inputUploadArquivo.removeAttribute('capture');
+          inputUploadArquivo.setAttribute('accept', 'image/*,.pdf');
+          inputUploadArquivo.click();
+        });
+      }
+
+      if (problemSolutionInput) {
+        problemSolutionInput.addEventListener('input', () => {
+          setTimeout(() => {
+            copiarTextoResolucao();
+          }, 50);
+        });
+      }
+
+      if (btnLimparResolucao) {
+        btnLimparResolucao.addEventListener('click', () => {
+          renderProblemSolution('');
+          if (problemImageBox) {
+            problemImageBox.innerHTML = '<div class="problem-image-placeholder"><span class="icon">🖼️</span><span>Imagem do exercício ou problema</span></div>';
+          }
+          setStatus('Imagem e resolução limpas.');
+        });
+      }
+
+      document.querySelectorAll('[data-action]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const action = button.dataset.action;
+          const mapa = {
+            resolver: () => gerarRespostaPuter('resolver'),
+            conteudo: () => gerarRespostaPuter('conteudo'),
+            atividade: gerarAtividadesPuter,
+            gabarito: mostrarGabarito,
+            'read-output': lerRespostaProblema,
+            'stop-audio': () => { stopSpeech(); setStatus('Áudio interrompido.'); },
+            camera: () => {
+              if (inputUploadArquivo) {
+                inputUploadArquivo.setAttribute('accept', 'image/*');
+                inputUploadArquivo.setAttribute('capture', 'environment');
+                inputUploadArquivo.click();
+              }
+            },
+            upload: () => {
+              if (inputUploadArquivo) {
+                inputUploadArquivo.removeAttribute('capture');
+                inputUploadArquivo.setAttribute('accept', 'image/*,.pdf');
+                inputUploadArquivo.click();
+              }
+            }
+          };
+
+          const fn = mapa[action];
+          if (fn) fn();
+        });
+      });
+
+      const popularResolucaoPuter = (resposta) => {
+        const texto = typeof resposta === 'string' ? resposta : String(resposta || '');
+        renderProblemSolution(texto);
+        setStatus('Resolução gerada com sucesso.');
+      };
+
+      const respostaProblemaPuter = async (arquivo) => {
+        if (!arquivo) {
+          setStatus('Selecione uma imagem ou arquivo antes de solicitar a resolução.');
+          return;
+        }
+
+        if (!window.puter || !puter.ai || !puter.ai.chat) {
+          setStatus('O serviço Puter não está disponível no momento.');
+          return;
+        }
+
+        await withBusyState(async () => {
+          const resposta = await puter.ai.chat('Resolva o problema da imagem de forma clara, estruturada e didática. Use Markdown, etapas, fórmulas em LaTeX quando necessário e explique cada passo.', arquivo);
+          popularResolucaoPuter(resposta && resposta.message ? resposta.message.content : resposta);
+        }, 'Pedido entregue com sucesso. Resolução recebida do Puter.', 'Enviando imagem para o Puter... Aguarde...');
+      };
+
+      if (inputUploadArquivo) {
+        inputUploadArquivo.addEventListener('change', async (event) => {
+          const file = event.target.files && event.target.files[0];
+          if (!file) return;
+
+          const nomeArquivo = file.name || 'arquivo enviado';
+          setStatus(`Arquivo selecionado: ${nomeArquivo}`);
+
+          if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (loadEvent) => {
+              const img = document.createElement('img');
+              img.src = loadEvent.target.result;
+              img.alt = 'Imagem do problema carregada';
+
+              if (problemImageBox) {
+                problemImageBox.innerHTML = '';
+                problemImageBox.appendChild(img);
+              }
+            };
+            reader.readAsDataURL(file);
+          } else if (problemImageBox) {
+            problemImageBox.innerHTML = '<div class="problem-image-placeholder"><span class="icon">📄</span><span>Arquivo carregado: ' + nomeArquivo + '</span></div>';
+          }
+
+          await respostaProblemaPuter(file);
+        });
+      }
+    </script>
+    <footer>
+    <p>&copy; 2026 Antônio Pereira de Souza Junior. Todos os direitos reservados.</p>
+</footer>
+  </body>
 </html>
