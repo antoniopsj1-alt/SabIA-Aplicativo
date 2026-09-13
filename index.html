@@ -1068,7 +1068,8 @@
             <div id="quiz-preview" class="result-preview" aria-live="polite">
               <p>As 10 questões de múltipla escolha aparecerão aqui com alternativas A, B, C e D.</p>
             </div>
-
+            <div id="resultado-correcao" class="result-preview" style="display:none;margin-top:15px;"></div>
+            
             <div class="result-actions">
               <button class="button primary" id="btnLerResultadoAtividades" type="button"><span class="button-icon">🔊</span><span>Ouvir Questões</span></button>
               <button class="button secondary" id="btnPausarAudioAtividades" type="button"><span class="button-icon">⏸️</span><span>Pausar Áudio</span></button>
@@ -1081,9 +1082,20 @@
           </article>
         </section>
 
+      <footer class="topbar">
+        <div class="brand">
+          <div class="brand-mark">✦</div>
+          <span>SabIA - Aplicativo para os Estudos da Anastasia Ferreira de Lima de Souza.</span>
+        </div>
 
+        <nav class="nav" aria-label="Principal">
+          <a href="#inicio" class="active">Início</a>
+          <a href="#resolucoes" class="active">Resoluções</a>
+          <a href="#conteudo" class="active">Conteúdo</a>
+          <a href="#avaliacoes" class="active">Avaliações</a>
+        </nav>
+      </footer>
 
-        <div class="footer-note">Design pensado para facilitar a rotina de estudo com tecnologia, organização e clareza visual.</div>
       </main>
     </div>
 
@@ -1100,16 +1112,27 @@
       const statusText = document.getElementById('status-text');
       let currentQuizData = null;
       let gabaritoAtivo = false;
+	let respostasUsuario = {};
+	let ultimoResultadoQuiz = "";
 
-      const setButtonLabelGabarito = () => {
-        const btnVerGabarito = document.getElementById('btnVerGabarito');
-        if (!btnVerGabarito) return;
+const setButtonLabelGabarito = () => {
 
-        const icon = gabaritoAtivo ? '🧩' : '✅';
-        const label = gabaritoAtivo ? 'Ver Questão' : 'Ver Gabarito';
+    const btnVerGabarito =
+    document.getElementById('btnVerGabarito');
 
-        btnVerGabarito.innerHTML = `<span class="button-icon">${icon}</span><span>${label}</span>`;
-      };
+    if (!btnVerGabarito) return;
+
+    const icon = gabaritoAtivo ? '🧩' : '✅';
+
+    const label =
+    gabaritoAtivo
+      ? 'Ver Questões'
+      : 'Ver Gabarito';
+
+    btnVerGabarito.innerHTML =
+    `<span class="button-icon">${icon}</span>
+     <span>${label}</span>`;
+};
 
       const syncContentCardPreview = () => {
         if (!contentResultPreview || !resultPreview) return;
@@ -1225,31 +1248,131 @@
         return questions.length ? { questions } : null;
       };
 
-      const renderQuizQuestionsFromData = (quizData) => {
-        if (!quizPreview) return;
+const renderQuizQuestionsFromData = (quizData) => {
 
-        if (!quizData || !Array.isArray(quizData.questions) || quizData.questions.length === 0) {
-          quizPreview.innerHTML = formatResultText('Nenhuma atividade foi gerada ainda.');
-          return;
-        }
+    if (!quizPreview) return;
 
-        const html = quizData.questions.map((questao, index) => {
-          const opcoes = questao.opcoes || {};
-          const itens = ['A', 'B', 'C', 'D'].map((letra) => {
-            const valor = opcoes[letra];
-            return valor ? `<li><strong>${letra})</strong> ${valor}</li>` : '';
-          }).join('');
+    const html = quizData.questions.map((questao, index) => {
 
-          return `
-            <div class="quiz-item" style="margin-bottom: 1.1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(13, 91, 215, 0.12);">
-              <p><strong>Questão ${index + 1}:</strong> ${questao.pergunta}</p>
-              <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">${itens}</ul>
-            </div>
-          `;
+        const opcoes = questao.opcoes || {};
+
+        const radios = ['A', 'B', 'C', 'D']
+        .map(letra => {
+
+            const texto = opcoes[letra];
+
+            if (!texto) return '';
+
+            const checked =
+                respostasUsuario[index] === letra
+                ? 'checked'
+                : '';
+
+            return `
+                <label style="display:block;margin:8px 0;cursor:pointer;">
+                    <input
+                        type="radio"
+                        name="questao_${index}"
+                        value="${letra}"
+                        ${checked}
+                        onchange="respostasUsuario[${index}]='${letra}'">
+
+                    <strong>${letra})</strong>
+                    ${texto}
+                </label>
+            `;
         }).join('');
 
-        quizPreview.innerHTML = html;
-      };
+        return `
+            <div class="quiz-item"
+                 style="margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #ddd;">
+
+                <p>
+                    <strong>Questão ${index + 1}:</strong>
+                    ${questao.pergunta}
+                </p>
+
+                ${radios}
+
+            </div>
+        `;
+
+    }).join('');
+
+    quizPreview.innerHTML = html;
+};
+
+
+
+const corrigirQuiz = () => {
+
+    if (!currentQuizData) return;
+
+    let acertos = 0;
+    let erros = 0;
+    let detalhes = '';
+
+    currentQuizData.questions.forEach((questao, index) => {
+
+        const respostaUsuarioAtual =
+            respostasUsuario[index] || '';
+
+        const correta =
+            (questao.respostaCorreta || '').toUpperCase();
+
+        if (respostaUsuarioAtual === correta) {
+
+            acertos++;
+
+            detalhes += `
+                <p style="color:green;">
+                    ✓ Questão ${index + 1}
+                </p>
+            `;
+
+        } else {
+
+            erros++;
+
+            detalhes += `
+                <p style="color:red;">
+                    ✗ Questão ${index + 1}
+                    | Sua: ${respostaUsuarioAtual || 'Não respondeu'}
+                    | Correta: ${correta}
+                </p>
+            `;
+        }
+    });
+
+    ultimoResultadoQuiz = `
+        <h3>Resultado</h3>
+
+        <p><strong>Acertos:</strong> ${acertos}</p>
+
+        <p><strong>Erros:</strong> ${erros}</p>
+
+        <hr>
+
+        ${detalhes}
+    `;
+
+    const painel =
+        document.getElementById("resultado-correcao");
+
+    painel.style.display = "block";
+    painel.innerHTML = ultimoResultadoQuiz;
+
+    setStatus(
+    `Correção concluída. Acertos: ${acertos} | Erros: ${erros}`
+);
+
+    
+};
+ 
+
+
+
+
 
       const renderQuizPreview = (rawText = '') => {
         const quizData = parseQuizResponse(rawText);
@@ -1411,50 +1534,104 @@
 
         await withBusyState(async () => {
           const resposta = await puter.ai.chat(prompt);
+
           const texto = typeof resposta === 'string' ? resposta : String(resposta || '');
+          ultimoResultadoQuiz = "";
+
+
+          const painel =
+          document.getElementById("resultado-correcao");
+
+          if (painel) {
+
+            painel.innerHTML = "";
+            painel.style.display = "none";
+          }
+	  
+	  respostasUsuario = {};
+	gabaritoAtivo = false;
           renderQuizPreview(texto);
         }, 'Pedido entregue com sucesso. Atividades recebidas.', 'Gerando atividades com o Puter... Aguarde...');
       };
 
-      const mostrarGabarito = () => {
-        if (!currentQuizData || !Array.isArray(currentQuizData.questions) || currentQuizData.questions.length === 0) {
-          setStatus('Primeiro gere as atividades para ver o gabarito.');
-          return;
-        }
 
-        const html = currentQuizData.questions.map((questao, index) => {
-          const resposta = questao.respostaCorreta || 'A';
-          const explicacao = questao.explicacao || 'A resposta correta é a alternativa mais adequada ao conteúdo estudado.';
 
-          return `
-            <div style="margin-bottom: 1.2rem; border-bottom: 1px solid rgba(13, 91, 215, 0.12); padding-bottom: 0.8rem;">
-              <p><strong>Questão ${index + 1}:</strong> ${questao.pergunta}</p>
-              <p><strong>Resposta correta:</strong> ${resposta}</p>
-              <p><strong>Explicação:</strong> ${explicacao}</p>
+
+const mostrarQuestoes = () => {
+
+    if (!currentQuizData) return;
+
+    gabaritoAtivo = false;
+
+    setButtonLabelGabarito();
+
+    renderQuizQuestionsFromData(
+        currentQuizData
+    );
+
+    const painel =
+        document.getElementById(
+            'resultado-correcao'
+        );
+
+    if (ultimoResultadoQuiz) {
+
+        painel.style.display = 'block';
+
+        painel.innerHTML =
+            ultimoResultadoQuiz;
+    }
+
+    setStatus(
+        'Questões exibidas novamente.'
+    );
+};
+
+const mostrarGabarito = () => {
+
+    if (!currentQuizData) {
+        return;
+    }
+
+    const html = currentQuizData.questions.map(
+        (questao, index) => {
+
+        return `
+            <div style="
+                margin-bottom:20px;
+                padding-bottom:10px;
+                border-bottom:1px solid #ddd;
+            ">
+
+                <p>
+                    <strong>Questão ${index + 1}</strong>
+                </p>
+
+                <p>
+                    <strong>Resposta correta:</strong>
+                    ${questao.respostaCorreta}
+                </p>
+
+                <p>
+                    <strong>Explicação:</strong>
+                    ${questao.explicacao}
+                </p>
+
             </div>
-          `;
-        }).join('');
+        `;
+    }).join('');
 
-        if (quizPreview) {
-          quizPreview.innerHTML = html;
-        }
+    quizPreview.innerHTML = html;
 
-        gabaritoAtivo = true;
-        setButtonLabelGabarito();
-        setStatus('Gabarito exibido com explicação.');
-      };
+    gabaritoAtivo = true;
 
-      const mostrarQuestoes = () => {
-        if (!currentQuizData || !Array.isArray(currentQuizData.questions) || currentQuizData.questions.length === 0) {
-          setStatus('Primeiro gere as atividades para retornar às questões.');
-          return;
-        }
+    setButtonLabelGabarito();
 
-        gabaritoAtivo = false;
-        setButtonLabelGabarito();
-        renderQuizQuestionsFromData(currentQuizData);
-        setStatus('Questões exibidas novamente.');
-      };
+    setStatus('Gabarito exibido.');
+};
+
+
+ 
 
       document.getElementById('btnGerarAnalise').addEventListener('click', async () => {
         await gerarRespostaPuter('geral');
@@ -1462,6 +1639,7 @@
           await gerarAtividadesPuter();
         }
       });
+
       document.getElementById('btnLerResultadoAtividades').addEventListener('click', () => {
         const texto = quizPreview ? (quizPreview.textContent || '').trim() : '';
         if (!texto) {
@@ -1526,13 +1704,21 @@
       };
 
       document.getElementById('btnCopiarConteudoAtividades').addEventListener('click', copiarConteudoAtividades);
-      document.getElementById('btnVerGabarito').addEventListener('click', () => {
-        if (gabaritoAtivo) {
-          mostrarQuestoes();
-        } else {
-          mostrarGabarito();
-        }
-      });
+      document.getElementById('btnVerGabarito')
+.addEventListener('click', () => {
+
+    if (gabaritoAtivo) {
+
+        mostrarQuestoes();
+
+    } else {
+
+        corrigirQuiz();
+        mostrarGabarito();
+
+    }
+
+});
       document.getElementById('btnLerResultado').addEventListener('click', lerResultado);
       document.getElementById('btnPausarAudio').addEventListener('click', pausarAudio);
       document.getElementById('btnContinuarAudio').addEventListener('click', () => {
@@ -1625,59 +1811,12 @@
       };
 
       document.getElementById('btnLerAssunto').addEventListener('click', speakSubject);
-      document.getElementById('btnLimparPrompt').addEventListener('click', () => {
-        if (materiaInput) materiaInput.value = '';
-        if (assuntoInput) assuntoInput.value = '';
+document.getElementById('btnLimparPrompt')
+.addEventListener('click', () => {
 
-        if (problemImageBox) {
-          problemImageBox.innerHTML = '<div class="problem-image-placeholder"><span class="icon">🖼️</span><span>Imagem do exercício ou problema</span></div>';
-        }
+    location.reload();
 
-        if (problemSolutionInput) {
-          renderProblemSolution('');
-        }
-
-        if (resultPreview) {
-          resultPreview.innerHTML = '<p>Seu conteúdo gerado aparecerá aqui em formato organizado, com fórmulas e imagens quando necessário.</p>';
-        }
-
-        if (quizPreview) {
-          quizPreview.innerHTML = '<p>As 10 questões de múltipla escolha aparecerão aqui com alternativas A, B, C e D.</p>';
-        }
-
-        currentQuizData = null;
-        gabaritoAtivo = false;
-        if (document.getElementById('btnVerGabarito')) {
-          setButtonLabelGabarito();
-        }
-
-        syncContentCardPreview();
-        setStatus('Tudo limpo. Estado inicial restaurado.');
-      });
-
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      let recognition = null;
-
-      if (SpeechRecognition) {
-        recognition = new SpeechRecognition();
-        recognition.lang = 'pt-BR';
-        recognition.continuous = false;
-        recognition.interimResults = false;
-
-        recognition.onresult = (event) => {
-          let texto = '';
-          for (let i = event.resultIndex; i < event.results.length; i++) {
-            texto += event.results[i][0].transcript;
-          }
-          assuntoInput.value = (assuntoInput.value + ' ' + texto).trim();
-          setStatus('Áudio convertido para texto.');
-        };
-
-        recognition.onerror = () => {
-          setStatus('Não foi possível capturar o áudio.');
-        };
-      }
-
+});
       document.getElementById('btnGravarAssunto').addEventListener('click', () => {
         if (!recognition) {
           setStatus('Seu navegador não suporta reconhecimento de voz.');
@@ -1853,6 +1992,7 @@
       }
     </script>
 		<footer> <!-- Início do Rodapé da página -->
+
                   <p style="text-align: center;">
                   <a href="https://antoniopsj1-alt.github.io/Portfolio-AntonioJunior/" target="_blank" style="text-decoration: none; color: inherit;">
                    &copy; 2026 Antônio Pereira de Souza Junior.
