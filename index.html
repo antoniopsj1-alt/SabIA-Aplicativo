@@ -923,7 +923,7 @@
         </div>
 
         <nav class="nav" aria-label="Principal">
-          <a href="#inicio" class="active">Início</a>
+          <a href="#inicio" class="active">Pesquisas</a>
           <a href="#resolucoes" class="active">Resoluções</a>
           <a href="#conteudo" class="active">Conteúdo</a>
           <a href="#avaliacoes" class="active">Avaliações</a>
@@ -1089,7 +1089,7 @@
         </div>
 
         <nav class="nav" aria-label="Principal">
-          <a href="#inicio" class="active">Início</a>
+          <a href="#inicio" class="active">Pesquisas</a>
           <a href="#resolucoes" class="active">Resoluções</a>
           <a href="#conteudo" class="active">Conteúdo</a>
           <a href="#avaliacoes" class="active">Avaliações</a>
@@ -1149,6 +1149,7 @@ const setButtonLabelGabarito = () => {
       };
 
       const formatResultText = (text) => {
+
         if (!text || !text.trim()) {
           return '<p>Seu conteúdo gerado aparecerá aqui em formato organizado, com fórmulas e imagens quando necessário.</p>';
         }
@@ -1156,6 +1157,26 @@ const setButtonLabelGabarito = () => {
         let html = escapeHtml(text);
 
         html = html
+
+.replace(/\\Delta/g,'Δ')
+.replace(/\\x^2/g,'x²')
+.replace(/\\x^3/g,'x³')
+.replace(/\\b^2/g,'b²')
+.replace(/\\sqrt/g,'√')
+.replace(/\\x=\frac{-b±√{Δ}}{2a}/g,'x=-b±√Δ/2a')
+.replace(/\\pm/g,'±')
+
+.replace(/\\times/g,'×')
+
+.replace(/\\div/g,'÷')
+
+.replace(/\\leq/g,'≤')
+
+.replace(/\\geq/g,'≥')
+
+.replace(/\\neq/g,'≠')	  
+
+
           .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
           .replace(/\$\$([\s\S]+?)\$\$/g, '<div class="math-block">$$$1$$</div>')
           .replace(/\$([^$\n]+)\$/g, '<span class="math-inline">$1</span>')
@@ -1191,15 +1212,33 @@ const setButtonLabelGabarito = () => {
         return rendered;
       };
 
-      const renderResultPreview = (text = '') => {
-        const source = text || getStructuredText();
-        if (contentResultPreview) {
-          contentResultPreview.innerHTML = formatResultText(source);
-        }
-        if (window.MathJax && typeof MathJax.typeset === 'function') {
-          MathJax.typesetPromise?.([contentResultPreview]).catch(() => {});
-        }
-      };
+
+
+const renderResultPreview =
+(text = '') => {
+
+    const source =
+        text || '';
+
+    contentResultPreview.innerHTML =
+        formatResultText(source);
+
+    if (
+        window.MathJax &&
+        MathJax.typesetPromise
+    ) {
+
+        MathJax.typesetPromise([
+            contentResultPreview
+        ])
+        .catch(
+            err => console.error(err)
+        );
+    }
+};
+
+
+
 
       const parseQuizResponse = (rawText) => {
         if (!rawText) return null;
@@ -1388,16 +1427,17 @@ const corrigirQuiz = () => {
         renderQuizQuestionsFromData(quizData);
       };
 
+
       const buildPrompt = (tipo) => {
         const materia = (materiaInput.value || 'Matéria').trim();
         const assunto = (assuntoInput.value || 'assunto em estudo').trim();
 
         const prompts = {
-          geral: `Atue como tutor acadêmico especialista em ${materia}. Analise o assunto ${assunto} com linguagem clara, didática e objetiva. Responda em estrutura de estudo, em Markdown, com títulos, tópicos e exemplos. Use se necessário fórmulas em LaTeX no formato $$...$$ ou $...$. Se houver imagem útil, indique uma descrição visual em texto ou use markdown de imagem como ![Legenda](URL). Organize a resposta em: Resumo, Conceitos principais, Fórmula principal, Passo a passo, Exemplo prático e Dica de estudo.`,
-          resolver: `Atue como professor de ${materia}. Resolva o problema relacionado a ${assunto} com explicação visual, passo a passo, linguagem simples e bem organizada. Responda em Markdown, com seções como: Objetivo, Fórmula, Cálculo, Interpretação e Verificação final. Sempre que houver equação, use LaTeX como $$...$$. Se puder ilustrar, use descrição textual ou imagem em markdown.`,
-          conteudo: `Crie um conteúdo completo e bem detalhado sobre ${assunto} na disciplina de ${materia}. Organize em introdução, conceitos principais, exemplos, fórmulas, exercícios e revisão final. Formato em Markdown com títulos, listas e explicação didática. Use fórmulas em LaTeX quando necessário e inclua uma imagem ou descrição de imagem sempre que a parte visual ajudar.`,
-          atividade: `Crie atividades escolares sobre ${assunto} na disciplina de ${materia}. Inclua enunciados, níveis de dificuldade, respostas curtas e gabarito explicado. Formate em Markdown com títulos, passos, exercícios e dicas. Se houver fórmula, use LaTeX. Se houver ilustração útil, use markdown de imagem ou frase explicativa.`,
-          gabarito: `Forneça o gabarito completo e comentado das atividades sobre ${assunto} de ${materia}. Inclua respostas detalhadas, justificativas didáticas e, quando necessário, fórmulas em LaTeX. Formate em Markdown com tópicos claros e exemplos.`
+          geral: `Atue como tutor acadêmico especialista em ${materia}. Analise o assunto ${assunto} com linguagem clara, didática e objetiva. Responda em estrutura de estudo, em Markdown, com títulos, tópicos e exemplos. Sempre que existir uma fórmula matemática:- Utilize Unicode matemático. - Utilize MathJax. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √. Não utilize estrutura fixa. Mostre apenas os tópicos que realmente forem necessários para o assunto. Utilize Unicode matemático:√ Δ π θ λ α β γ ≤ ≥ ≠ × ÷ ± Ø % Ʃ ᵒC ᵒF ² ³ ³√ º ª x² x³ ½ ⅓ ⅒ ∞`,
+          resolver: `Atue como professor de ${materia}. Resolva o problema relacionado a ${assunto} com explicação visual, passo a passo, linguagem simples e bem organizada. Responda em Markdown, com seções como: Objetivo, Fórmula, Cálculo, Interpretação e Verificação final. Sempre que existir uma fórmula matemática:- Utilize Unicode matemático. - Utilize MathJax. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √.`,
+          conteudo: `Crie um conteúdo completo e bem detalhado sobre ${assunto} na disciplina de ${materia}. Mostre apenas os tópicos que realmente forem necessários para o assunto como por exemplo: conceito. Sempre que existir uma fórmula matemática:- Utilize Unicode matemático. - Utilize MathJax. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √ .Quando houver matemática:- Escreva usando símbolos matemáticos Unicode. Exemplos corretos: 2x² − 2x + 1 = 0 x³ + 2x² − x = 0 √25 = 5 Δ = b² − 4ac Não escreva: 2x^2-2x+1=0 x^3+2x^2-x=0 sqrt(25)=5 Delta=b^2-4ac Quando houver equações do 2º grau, apresente SEMPRE: Forma geral: ax² + bx + c = 0 Discriminante: Δ = b² − 4ac Fórmula de Bhaskara: $$x =\frac{-b \pm \sqrt{\Delta}}{2a}$$Exemplo resolvido: 2x² − 5x + 2 = 0 Δ = (-5)² − 4·2·2 Δ = 25 − 16 Δ = 9$$x =\frac{5 \pm 3}{4}$$Sempre que houver fórmulas use MathJax/LaTeX. Não converter fórmulas para texto simples. Não escrever x^2. Escreva x². Não escrever Delta. Escreva Δ. Não escrever sqrt. Escreva √.`,
+          atividade: `Crie atividades escolares sobre ${assunto} na disciplina de ${materia}. Inclua enunciados, níveis de dificuldade, respostas curtas e gabarito explicado. Sempre que existir uma fórmula matemática:- Utilize Unicode matemático. - Utilize MathJax. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √. Exemplos corretos: 2x² − 2x + 1 = 0 x³ + 2x² − x = 0 √25 = 5 Δ = b² − 4ac Não escreva: 2x^2-2x+1=0 x^3+2x^2-x=0 sqrt(25)=5 Delta=b^2-4ac`,
+          gabarito: `Forneça o gabarito completo e comentado das atividades sobre ${assunto} de ${materia}. Inclua respostas detalhadas, justificativas didáticas. Sempre que existir uma fórmula matemática:- Utilize Unicode matemático. - Utilize MathJax. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √. Exemplos corretos: 2x² − 2x + 1 = 0 x³ + 2x² − x = 0 √25 = 5 Δ = b² − 4ac Não escreva: 2x^2-2x+1=0 x^3+2x^2-x=0 sqrt(25)=5 Delta=b^2-4ac`,
         };
 
         return prompts[tipo] || prompts.geral;
@@ -1530,7 +1570,9 @@ const corrigirQuiz = () => {
           return;
         }
 
-        const prompt = `Crie exatamente 10 questões de múltipla escolha sobre ${assunto} na disciplina de ${materia}. Use apenas alternativas A, B, C e D. Para cada questão, devolva um objeto JSON válido com a estrutura: {"questions":[{"numero":1,"pergunta":"...","opcoes":{"A":"...","B":"...","C":"...","D":"..."},"respostaCorreta":"A","explicacao":"..."}, ... ]}. Responda somente com JSON válido, sem texto extra antes ou depois e sem markdown.`;
+                                                                                                                                                                                                                             
+
+        const prompt = `Crie exatamente 10 questões de múltipla escolha sobre ${assunto} na disciplina de ${materia}. Use apenas alternativas A, B, C e D balanceando as alternativas corretas. Antes de finalizar, verifique se a explicação confirma a resposta correta. Nunca gere resposta correta incompatível com a explicação. Para cada questão, devolva um objeto JSON válido com a estrutura: {"questions":[{"numero":1,"pergunta":"...","opcoes":{"A":"...","B":"...","C":"...","D":"..."},"respostaCorreta":"A","explicacao":"..."}, ... ]}. Responda somente com JSON válido, sem texto extra antes ou depois e sem markdown.`;
 
         await withBusyState(async () => {
           const resposta = await puter.ai.chat(prompt);
@@ -1817,26 +1859,144 @@ document.getElementById('btnLimparPrompt')
     location.reload();
 
 });
-      document.getElementById('btnGravarAssunto').addEventListener('click', () => {
-        if (!recognition) {
-          setStatus('Seu navegador não suporta reconhecimento de voz.');
-          return;
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+let gravandoAudio = false;
+let textoReconhecido = '';
+
+if (SpeechRecognition) {
+
+    recognition = new SpeechRecognition();
+
+    recognition.lang = 'pt-BR';
+
+    recognition.continuous = true;
+
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+
+        gravandoAudio = true;
+
+        textoReconhecido = '';
+
+        setStatus('Gravando áudio...');
+    };
+
+    recognition.onresult = (event) => {
+
+        for (
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+        ) {
+
+            if (
+                event.results[i].isFinal
+            ) {
+
+                textoReconhecido +=
+                    event.results[i][0].transcript +
+                    ' ';
+            }
         }
 
-        try {
-          recognition.start();
-          setStatus('Gravando áudio... Fale agora.');
-        } catch (error) {
-          setStatus('Gravação já está ativa.');
-        }
-      });
+        assuntoInput.value =
+            textoReconhecido.trim();
+    };
 
-      document.getElementById('btnPararGravacao').addEventListener('click', () => {
-        if (recognition) {
-          recognition.stop();
-          setStatus('Gravação interrompida.');
-        }
-      });
+    recognition.onend = () => {
+
+        gravandoAudio = false;
+
+        setStatus(
+            'Gravação finalizada.'
+        );
+    };
+
+    recognition.onerror = (e) => {
+
+        gravandoAudio = false;
+
+        setStatus(
+            'Erro: ' + e.error
+        );
+    };
+}
+
+document
+.getElementById(
+    'btnGravarAssunto'
+)
+.addEventListener('click', () => {
+
+    if (!recognition) {
+
+        setStatus(
+            'Reconhecimento de voz não suportado.'
+        );
+
+        return;
+    }
+
+    if (!gravandoAudio) {
+
+        recognition.start();
+    }
+});
+
+
+
+document
+.getElementById(
+    'btnPararGravacao'
+)
+.addEventListener('click', () => {
+
+    if (
+        recognition &&
+        gravandoAudio
+    ) {
+
+        recognition.stop();
+    }
+});
+``
+
+document
+.getElementById('btnGravarAssunto')
+.addEventListener('click', () => {
+
+    if (!recognition) {
+
+        setStatus(
+            'Reconhecimento de voz não suportado.'
+        );
+
+        return;
+    }
+
+    if (!gravandoAudio) {
+
+        recognition.start();
+    }
+});
+
+document
+.getElementById('btnPararGravacao')
+.addEventListener('click', () => {
+
+    if (
+        recognition &&
+        gravandoAudio
+    ) {
+        recognition.stop();
+    }
+});
 
       const inputUploadArquivo = document.getElementById('inputUploadArquivo');
       const btnUploadArquivo = document.getElementById('btnUploadArquivo');
