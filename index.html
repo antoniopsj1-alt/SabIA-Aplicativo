@@ -289,6 +289,79 @@
         line-height: 1.6;
       }
 
+      .assunto-label-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        margin-bottom: 2px;
+      }
+
+      .assunto-label-row .form-label {
+        margin-bottom: 0;
+      }
+
+      .nivel-radio-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nivel-radio-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        border: 1.5px solid rgba(0, 82, 204, 0.18);
+        background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(245,250,255,0.98));
+        color: var(--text);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-transform: none;
+        white-space: nowrap;
+      }
+
+      .nivel-radio-option input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 15px;
+        height: 15px;
+        min-width: 15px;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 82, 204, 0.35);
+        display: inline-grid;
+        place-content: center;
+        margin: 0;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .nivel-radio-option input[type="radio"]::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        transform: scale(0);
+        transition: transform 0.15s ease;
+        background: var(--primary);
+      }
+
+      .nivel-radio-option input[type="radio"]:checked::before {
+        transform: scale(1);
+      }
+
+      .nivel-radio-option:has(input[type="radio"]:checked) {
+        border-color: var(--primary);
+        background: linear-gradient(135deg, rgba(0, 82, 204, 0.14), rgba(46, 127, 232, 0.1));
+        color: var(--primary-strong);
+        box-shadow: 0 2px 8px rgba(0, 82, 204, 0.14);
+      }
+
       .prompt-actions {
         display: flex;
         flex-wrap: wrap;
@@ -964,7 +1037,27 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="assunto">Assunto:</label>
+                <div class="assunto-label-row">
+                  <label class="form-label" for="assunto">Assunto:</label>
+                  <div class="nivel-radio-group" id="nivelPesquisaGroup" role="radiogroup" aria-label="Nível de pesquisa">
+                    <label class="nivel-radio-option">
+                      <input type="radio" name="nivelPesquisa" id="nivelInfantil" value="Educação Infantil">
+                      <span>Educação Infantil</span>
+                    </label>
+                    <label class="nivel-radio-option">
+                      <input type="radio" name="nivelPesquisa" id="nivelFundamental" value="Ensino Fundamental">
+                      <span>Ensino Fundamental</span>
+                    </label>
+                    <label class="nivel-radio-option">
+                      <input type="radio" name="nivelPesquisa" id="nivelMedio" value="Ensino Médio">
+                      <span>Ensino Médio</span>
+                    </label>
+                    <label class="nivel-radio-option">
+                      <input type="radio" name="nivelPesquisa" id="nivelSuperior" value="Educação Superior">
+                      <span>Educação Superior</span>
+                    </label>
+                  </div>
+                </div>
                 <textarea
                   id="assunto"
                   class="text-input"
@@ -1106,6 +1199,12 @@
     <script>
       const materiaInput = document.getElementById('materia');
       const assuntoInput = document.getElementById('assunto');
+
+      const getNivelSelecionado = () => {
+        const marcado = document.querySelector('input[name="nivelPesquisa"]:checked');
+        return marcado ? marcado.value : '';
+      };
+
       const contentResultPreview = document.getElementById('content-result-preview');
       const resultPreview = document.getElementById('content-result-preview');
       const quizPreview = document.getElementById('quiz-preview');
@@ -1431,13 +1530,16 @@ const corrigirQuiz = () => {
       const buildPrompt = (tipo) => {
         const materia = (materiaInput.value || 'Matéria').trim();
         const assunto = (assuntoInput.value || 'assunto em estudo').trim();
+        const nivel = getNivelSelecionado() || 'Ensino Fundamental';
+
+        const regrasFormula = `Sempre que existir uma fórmula matemática, física ou química: - Utilize Unicode matemático. - Utilize MathJax/LaTeX para expressões mais complexas. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √. - Escreva fórmulas químicas com subíndices corretos (ex.: H₂O, CO₂, H₂SO₄). Exemplos corretos: 2x² − 2x + 1 = 0, x³ + 2x² − x = 0, √25 = 5, Δ = b² − 4ac, H₂O, F = m·a. Não escreva: 2x^2-2x+1=0, x^3+2x^2-x=0, sqrt(25)=5, Delta=b^2-4ac, H2O, F=m*a. Quando houver equação do 2º grau, apresente SEMPRE: Forma geral: ax² + bx + c = 0; Discriminante: Δ = b² − 4ac; Fórmula de Bhaskara: $$x=\frac{-b\pm\sqrt{\Delta}}{2a}$$.`;
 
         const prompts = {
-          geral: `Atue como tutor acadêmico especialista em ${materia}. Analise o assunto ${assunto} com linguagem clara, didática e objetiva. Responda em estrutura de estudo, em Markdown, com títulos, tópicos e exemplos. Antes de finalizar, verifique se a explicação confirma a resposta correta. Nunca gere resposta correta incompatível com a explicação. Sempre que existir uma fórmula matemática dentro de "pergunta", "opcoes" ou "explicacao": Utilize Unicode matemático. Não converta fórmulas para texto simples. Substitua ^2 por ². Substitua ^3 por ³. Substitua Delta por Δ. Substitua sqrt por √. Exemplos corretos: 2x² − 2x + 1 = 0, Δ = b² − 4ac, √25 = 5. Não escreva: 2x^2-2x+1=0, Delta=b^2-4ac, sqrt(25)=5. Para cada questão, devolva um objeto JSON válido com a estrutura: {"questions":[{"numero":1,"pergunta":"...","opcoes":{"A":"...","B":"...","C":"...","D":"..."},"respostaCorreta":"A","explicacao":"..."}, ... ]}. Responda somente com JSON válido, sem texto extra antes ou depois e sem markdown.`,
-          resolver: `Atue como professor de ${materia}. Resolva o problema relacionado a ${assunto} com explicação visual, passo a passo, linguagem simples e bem organizada. Responda em Markdown, com seções como: Objetivo, Fórmula, Cálculo, Interpretação e Verificação final. Sempre que existir uma fórmula matemática:- Utilize Unicode matemático. - Utilize MathJax. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √.`,
-          conteudo: `Crie um conteúdo completo e bem detalhado sobre ${assunto} na disciplina de ${materia}. Mostre apenas os tópicos que realmente forem necessários para o assunto como por exemplo: conceito. Sempre que existir uma fórmula matemática:- Utilize Unicode matemático. - Utilize MathJax. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √ .Quando houver matemática:- Escreva usando símbolos matemáticos Unicode. Exemplos corretos: 2x² − 2x + 1 = 0 x³ + 2x² − x = 0 √25 = 5 Δ = b² − 4ac Não escreva: 2x^2-2x+1=0 x^3+2x^2-x=0 sqrt(25)=5 Delta=b^2-4ac Quando houver equações do 2º grau, apresente SEMPRE: Forma geral: ax² + bx + c = 0 Discriminante: Δ = b² − 4ac Fórmula de Bhaskara: $$x =\frac{-b \pm \sqrt{\Delta}}{2a}$$Exemplo resolvido: 2x² − 5x + 2 = 0 Δ = (-5)² − 4·2·2 Δ = 25 − 16 Δ = 9$$x =\frac{5 \pm 3}{4}$$Sempre que houver fórmulas use MathJax/LaTeX. Não converter fórmulas para texto simples. Não escrever x^2. Escreva x². Não escrever Delta. Escreva Δ. Não escrever sqrt. Escreva √.`,
-          atividade: `Crie atividades escolares sobre ${assunto} na disciplina de ${materia}. Inclua enunciados, níveis de dificuldade, respostas curtas e gabarito explicado. Quando houver matemática:- Escreva usando símbolos matemáticos Unicode. Exemplos corretos: 2x² − 2x + 1 = 0 x³ + 2x² − x = 0 √25 = 5 Δ = b² − 4ac Não escreva: 2x^2-2x+1=0 x^3+2x^2-x=0 sqrt(25)=5 Delta=b^2-4ac Quando houver equações do 2º grau, apresente SEMPRE: Forma geral: ax² + bx + c = 0 Discriminante: Δ = b² − 4ac Fórmula de Bhaskara: $$x =\frac{-b \pm \sqrt{\Delta}}{2a}$$Exemplo resolvido: 2x² − 5x + 2 = 0 Δ = (-5)² − 4·2·2 Δ = 25 − 16 Δ = 9$$x =\frac{5 \pm 3}{4}$$Sempre que houver fórmulas use MathJax/LaTeX. Não converter fórmulas para texto simples. Não escrever x^2. Escreva x². Não escrever Delta. Escreva Δ. Não escrever sqrt. Escreva √.`,
-          gabarito: `Forneça o gabarito completo e comentado das atividades sobre ${assunto} de ${materia}. Inclua respostas detalhadas, justificativas didáticas. Quando houver matemática:- Escreva usando símbolos matemáticos Unicode. Exemplos corretos: 2x² − 2x + 1 = 0 x³ + 2x² − x = 0 √25 = 5 Δ = b² − 4ac Não escreva: 2x^2-2x+1=0 x^3+2x^2-x=0 sqrt(25)=5 Delta=b^2-4ac Quando houver equações do 2º grau, apresente SEMPRE: Forma geral: ax² + bx + c = 0 Discriminante: Δ = b² − 4ac Fórmula de Bhaskara: $$x =\frac{-b \pm \sqrt{\Delta}}{2a}$$Exemplo resolvido: 2x² − 5x + 2 = 0 Δ = (-5)² − 4·2·2 Δ = 25 − 16 Δ = 9$$x =\frac{5 \pm 3}{4}$$Sempre que houver fórmulas use MathJax/LaTeX. Não converter fórmulas para texto simples. Não escrever x^2. Escreva x². Não escrever Delta. Escreva Δ. Não escrever sqrt. Escreva √.`,
+          geral: `Atue como tutor acadêmico especialista em ${materia}, elaborando para o nível de ensino: ${nivel}. Analise o assunto ${assunto} com linguagem clara, didática e objetiva, adequada ao nível informado. Responda em estrutura de estudo, em Markdown, com títulos, tópicos e exemplos. Antes de finalizar, verifique se a explicação confirma a resposta correta. Nunca gere resposta correta incompatível com a explicação. ${regrasFormula} Para cada questão, devolva um objeto JSON válido com a estrutura: {"questions":[{"numero":1,"pergunta":"...","opcoes":{"A":"...","B":"...","C":"...","D":"..."},"respostaCorreta":"A","explicacao":"..."}, ... ]}. Responda somente com JSON válido, sem texto extra antes ou depois e sem markdown.`,
+          resolver: `Atue como professor de ${materia}, explicando para o nível de ensino: ${nivel}. Resolva o problema relacionado a ${assunto} com explicação visual, passo a passo, linguagem simples, bem organizada e adequada ao nível informado. Responda em Markdown, com seções como: Objetivo, Fórmula, Cálculo, Interpretação e Verificação final. ${regrasFormula}`,
+          conteudo: `Atue como professor especialista em ${materia}, elaborando conteúdo para o nível de ensino: ${nivel}. Crie uma explicação completa, estruturada e bem organizada sobre ${assunto}, com profundidade, vocabulário e complexidade adequados ao nível informado. Organize a resposta em Markdown, com títulos e tópicos, mostrando apenas as seções realmente necessárias para o assunto (por exemplo: conceito, explicação detalhada, exemplos práticos, aplicações, resumo). ${regrasFormula} Ao final, garanta que toda a explicação esteja coerente e no grau de complexidade apropriado para o nível ${nivel}.`,
+          atividade: `Atue como professor especialista em ${materia}, elaborando para o nível de ensino: ${nivel}. Crie atividades escolares sobre ${assunto}, com enunciados, níveis de dificuldade, respostas curtas e gabarito explicado, tudo adequado ao nível informado. ${regrasFormula}`,
+          gabarito: `Atue como professor especialista em ${materia}, elaborando para o nível de ensino: ${nivel}. Forneça o gabarito completo e comentado das atividades sobre ${assunto}. Inclua respostas detalhadas e justificativas didáticas, coerentes com o nível informado. ${regrasFormula}`,
         };
 
         return prompts[tipo] || prompts.geral;
@@ -1546,6 +1648,12 @@ const corrigirQuiz = () => {
       const gerarRespostaPuter = async (tipo) => {
         const materia = (materiaInput.value || '').trim();
         const assunto = (assuntoInput.value || '').trim();
+        const nivel = getNivelSelecionado();
+
+        if (!nivel) {
+          setStatus('Selecione o nível de pesquisa (Educação Infantil, Ensino Fundamental, Ensino Médio ou Educação Superior) antes de continuar.');
+          return;
+        }
 
         if (!materia || !assunto) {
           setStatus('Selecione a matéria e descreva o assunto antes de continuar.');
@@ -1564,15 +1672,19 @@ const corrigirQuiz = () => {
       const gerarAtividadesPuter = async () => {
         const materia = (materiaInput.value || '').trim();
         const assunto = (assuntoInput.value || '').trim();
+        const nivel = getNivelSelecionado();
+
+        if (!nivel) {
+          setStatus('Selecione o nível de pesquisa antes de gerar as atividades.');
+          return;
+        }
 
         if (!materia || !assunto) {
           setStatus('Selecione a matéria e o assunto antes de gerar as atividades.');
           return;
         }
 
-                                                                                                                                                                                                                             
-
-        const prompt = `Crie exatamente 10 questões de múltipla escolha sobre ${assunto} na disciplina de ${materia}. Use apenas alternativas A, B, C e D balanceando as alternativas corretas. Antes de finalizar, verifique se a explicação confirma a resposta correta. Nunca gere resposta correta incompatível com a explicação. Para cada questão, devolva um objeto JSON válido com a estrutura: {"questions":[{"numero":1,"pergunta":"...","opcoes":{"A":"...","B":"...","C":"...","D":"..."},"respostaCorreta":"A","explicacao":"..."}, ... ]}. Responda somente com JSON válido, sem texto extra antes ou depois e sem markdown.`;
+        const prompt = `Atue como professor especialista em ${materia}, elaborando questões para o nível de ensino: ${nivel}. Crie exatamente 10 questões de múltipla escolha sobre ${assunto}, com linguagem, complexidade e profundidade adequadas ao nível informado. Use apenas alternativas A, B, C e D, balanceando entre elas qual é a alternativa correta ao longo das 10 questões (evite concentrar as respostas corretas sempre na mesma letra). Cada explicação deve justificar didaticamente por que a alternativa indicada é a correta. Antes de finalizar, verifique se a explicação de cada questão confirma exatamente a resposta correta indicada. Nunca gere resposta correta incompatível com a explicação. Sempre que existir uma fórmula matemática, física ou química dentro de "pergunta", "opcoes" ou "explicacao": utilize Unicode matemático. Não converta fórmulas para texto simples. Substitua ^2 por ². Substitua ^3 por ³. Substitua Delta por Δ. Substitua sqrt por √. Escreva fórmulas químicas com subíndices corretos (ex.: H₂O, CO₂, H₂SO₄). Exemplos corretos: 2x² − 2x + 1 = 0, Δ = b² − 4ac, √25 = 5, H₂O, F = m·a. Não escreva: 2x^2-2x+1=0, Delta=b^2-4ac, sqrt(25)=5, H2O, F=m*a. Quando houver equação do 2º grau, apresente a forma geral ax² + bx + c = 0 e o discriminante Δ = b² − 4ac quando pertinente à questão. Para cada questão, devolva um objeto JSON válido com a estrutura: {"questions":[{"numero":1,"pergunta":"...","opcoes":{"A":"...","B":"...","C":"...","D":"..."},"respostaCorreta":"A","explicacao":"..."}, ... ]}. Responda somente com JSON válido, sem texto extra antes ou depois e sem markdown.`;
 
         await withBusyState(async () => {
           const resposta = await puter.ai.chat(prompt);
@@ -1676,10 +1788,27 @@ const mostrarGabarito = () => {
  
 
       document.getElementById('btnGerarAnalise').addEventListener('click', async () => {
-        await gerarRespostaPuter('geral');
-        if (materiaInput.value && assuntoInput.value) {
-          await gerarAtividadesPuter();
+        const nivel = getNivelSelecionado();
+        const materia = (materiaInput.value || '').trim();
+        const assunto = (assuntoInput.value || '').trim();
+
+        if (!nivel) {
+          setStatus('Selecione o nível de pesquisa (Educação Infantil, Ensino Fundamental, Ensino Médio ou Educação Superior) antes de pesquisar.');
+          return;
         }
+
+        if (!materia) {
+          setStatus('Selecione a matéria antes de pesquisar.');
+          return;
+        }
+
+        if (!assunto) {
+          setStatus('Descreva o assunto antes de pesquisar.');
+          return;
+        }
+
+        await gerarRespostaPuter('conteudo');
+        await gerarAtividadesPuter();
       });
 
       document.getElementById('btnLerResultadoAtividades').addEventListener('click', () => {
@@ -2116,8 +2245,19 @@ document
           return;
         }
 
+        const nivel = getNivelSelecionado();
+        const materia = (materiaInput.value || '').trim();
+        const assunto = (assuntoInput.value || '').trim();
+        const contexto = [
+          nivel ? `Nível de ensino: ${nivel}.` : '',
+          materia ? `Disciplina: ${materia}.` : '',
+          assunto ? `Assunto de referência: ${assunto}.` : '',
+        ].filter(Boolean).join(' ');
+
+        const promptResolucao = `Atue como professor especialista, capaz de identificar a matéria, o assunto e o enunciado da questão, atividade ou prova presente na imagem. ${contexto} Resolva o problema de forma clara, completa, estruturada e didática, adequada ao nível de ensino informado (quando houver). Responda em Markdown, organizando a resposta com seções como: Enunciado identificado, Resolução passo a passo, Resposta final e Verificação. Sempre que existir fórmula matemática, física ou química: - Utilize Unicode matemático. - Utilize MathJax/LaTeX para expressões mais complexas. - Não converta fórmulas para texto simples. - Substitua ^2 por ². - Substitua ^3 por ³. - Substitua Delta por Δ. - Substitua sqrt por √. - Escreva fórmulas químicas com subíndices corretos (ex.: H₂O, CO₂, H₂SO₄). Exemplos corretos: 2x² − 2x + 1 = 0, Δ = b² − 4ac, √25 = 5, F = m·a, H₂O. Não escreva: 2x^2-2x+1=0, Delta=b^2-4ac, sqrt(25)=5, F=m*a, H2O. Quando houver equação do 2º grau, apresente SEMPRE a forma geral ax² + bx + c = 0, o discriminante Δ = b² − 4ac e, se necessário, a fórmula de Bhaskara em LaTeX: $$x=\frac{-b\pm\sqrt{\Delta}}{2a}$$.`;
+
         await withBusyState(async () => {
-          const resposta = await puter.ai.chat('Resolva o problema da imagem de forma clara, estruturada e didática. Use Markdown, etapas, fórmulas em LaTeX quando necessário e explique cada passo.', arquivo);
+          const resposta = await puter.ai.chat(promptResolucao, arquivo);
           popularResolucaoPuter(resposta && resposta.message ? resposta.message.content : resposta);
         }, 'Pedido entregue com sucesso. Resolução recebida do Puter.', 'Enviando imagem para o Puter... Aguarde...');
       };
